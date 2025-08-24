@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yuitsu Kimono — Boutique</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>body{font-family:Inter, ui-sans-serif, system-ui, -apple-system}.line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.btn{padding:.6rem 1rem;border-radius:1rem}.btn-dark{background:#000;color:#fff}.btn-ghost{border:1px solid #e5e7eb}</style>
+  <script>
+const YK_EXCHANGE = { jpyPerUsd: 155 };
+const YK_WA = { number: "+6281200000000" };
+const YK_KEY = "yk_cart_v1";
+const YK_USED_KEY = "yk_used_tokens_v1";
+const YK_STATE = { currency: "JPY", lang: (navigator.language||'').toLowerCase().startsWith('en')?'en':'id' };
+
+// Shipping rules + couriers
+const YK_SHIP = {
+  domesticFreeThreshold: 10000,
+  couriers: {
+    domestic: [
+      { id: "yamato",  name_id: "Kurir A • Yamato", name_en: "Courier A • Yamato",  fee: 800,  eta_id: "1–2 hari", eta_en: "1–2 days" },
+      { id: "sagawa",  name_id: "Kurir B • Sagawa", name_en: "Courier B • Sagawa",  fee: 600,  eta_id: "2–4 hari", eta_en: "2–4 days" }
+    ],
+    international: [
+      { id: "ems",     name_id: "Kurir A • EMS",    name_en: "Courier A • EMS",     fee: 2500, eta_id: "3–7 hari", eta_en: "3–7 days" },
+      { id: "dhl",     name_id: "Kurir B • DHL",    name_en: "Courier B • DHL",     fee: 3800, eta_id: "2–5 hari", eta_en: "2–5 days" }
+    ]
+  }
+};
+
+const YK_I18N = {
+  id: {
+    brand:"Yuitsu Kimono",
+    nav_shop:"Toko", nav_gallery:"Galeri", nav_reviews:"Ulasan", nav_help:"FAQ & Size", nav_contact:"Kontak", nav_howto:"Cara Pesan",
+    hero_title:"Elegansi Abadi, <span class='italic'>Crafted</span> untuk Momen Istimewa",
+    hero_sub:"Koleksi kimono, yukata, dan aksesori pilihan—menggabungkan tradisi dan sentuhan modern.",
+    cta_shop:"Belanja Sekarang", cta_gallery:"Lihat Galeri", note:"Free shipping di Jepang untuk order ≥ ¥10,000 • 1 USD ≈ ¥155",
+    shop_title:"Toko", shop_sub:"Pilih koleksi favorit Anda.", search_ph:"Cari kimono, yukata, aksesori...",
+    gallery_title:"Galeri", reviews_title:"Ulasan Pelanggan", help_title:"FAQ, Size Guide & Perawatan",
+    pay_title:"Pembayaran", pay_text:"Versi ini tidak terhubung API pembayaran. Gunakan WhatsApp/transfer bank.",
+    ship_title:"Pengiriman", ship_text:"Gratis domestik ≥ ¥10,000. Internasional dihitung di keranjang.",
+    size_title:"Panduan Ukuran (Kimono/Yukata/Haori)", care_title:"Perawatan",
+    care_text:"Cuci lembut (cold), jemur teduh, setrika rendah dari sisi dalam.",
+    contact_title:"Kontak & Studio", contact_addr:"Kyoto • Senin–Sabtu, 10:00–18:00",
+    wa_cta:"Chat via WhatsApp", add_btn:"Tambah", subtotal:"Subtotal", discount:"Diskon", shipping:"Ongkir", total:"Total",
+    checkout:"Lanjut ke WhatsApp", empty:"Belum ada item.", qty:"Qty", remove:"Hapus",
+    cart_title:"Keranjang", back_shop:"Kembali belanja", steps_title:"Langkah Pemesanan",
+    steps_1:"Pilih produk & klik Tambah", steps_2:"Buka halaman Keranjang",
+    steps_3:"Kirim pesanan via WhatsApp", steps_4:"Selesaikan pembayaran sesuai instruksi",
+    howto_title:"Cara Pesan", howto_intro:"Ini adalah proses sederhana tanpa integrasi API.",
+    code_label:"Kode Kupon", apply:"Terapkan", invalid:"Kupon tidak valid",
+    invoice:"Cetak Invoice", destination:"Tujuan", domestic:"Domestik (JP)", international:"Internasional",
+    courier:"Kurir", eta:"Estimasi", free_ship:"Gratis", used:"sudah dipakai", coupon_used:"Kupon sudah digunakan",
+    invoice_title:"Invoice", invoice_to:"Kepada", invoice_date:"Tanggal", invoice_items:"Item", invoice_price:"Harga", invoice_qty:"Qty",
+    invoice_line:"Jumlah", invoice_subtotal:"Subtotal", invoice_discount:"Diskon", invoice_shipping:"Ongkir", invoice_total:"Total",
+    courier_line:"Kurir & Estimasi"
+  },
+  en: {
+    brand:"Yuitsu Kimono",
+    nav_shop:"Shop", nav_gallery:"Gallery", nav_reviews:"Reviews", nav_help:"FAQ & Size", nav_contact:"Contact", nav_howto:"How to Order",
+    hero_title:"Timeless Elegance, <span class='italic'>Crafted</span> for Special Moments",
+    hero_sub:"A curated selection of kimono, yukata, and accessories—where tradition meets modern comfort.",
+    cta_shop:"Shop Now", cta_gallery:"View Gallery", note:"Free shipping in Japan for orders ≥ ¥10,000 • 1 USD ≈ ¥155",
+    shop_title:"Shop", shop_sub:"Choose your favorites.", search_ph:"Search kimono, yukata, accessories...",
+    gallery_title:"Gallery", reviews_title:"Customer Reviews", help_title:"FAQ, Size Guide & Care",
+    pay_title:"Payments", pay_text:"This demo does not connect to payment APIs. Use WhatsApp/bank transfer.",
+    ship_title:"Shipping", ship_text:"Domestic Japan free ≥ ¥10,000. International calculated in cart.",
+    size_title:"Size Guide (Kimono/Yukata/Haori)", care_title:"Care",
+    care_text:"Gentle wash (cold), shade dry, low iron from the inside.",
+    contact_title:"Contact & Studio", contact_addr:"Kyoto • Mon–Sat, 10:00–18:00",
+    wa_cta:"Chat via WhatsApp", add_btn:"Add", subtotal:"Subtotal", discount:"Discount", shipping:"Shipping", total:"Total",
+    checkout:"Continue on WhatsApp", empty:"No items yet.", qty:"Qty", remove:"Remove",
+    cart_title:"Cart", back_shop:"Back to shop", steps_title:"Ordering Steps",
+    steps_1:"Choose products & click Add", steps_2:"Open the Cart page",
+    steps_3:"Send order via WhatsApp", steps_4:"Complete payment as instructed",
+    howto_title:"How to Order", howto_intro:"A simple flow without payment APIs.",
+    code_label:"Coupon Code", apply:"Apply", invalid:"Invalid coupon",
+    invoice:"Print Invoice", destination:"Destination", domestic:"Domestic (JP)", international:"International",
+    courier:"Courier", eta:"ETA", free_ship:"Free", used:"used", coupon_used:"Coupon already used",
+    invoice_title:"Invoice", invoice_to:"Bill To", invoice_date:"Date", invoice_items:"Items", invoice_price:"Price", invoice_qty:"Qty",
+    invoice_line:"Line Total", invoice_subtotal:"Subtotal", invoice_discount:"Discount", invoice_shipping:"Shipping", invoice_total:"Total",
+    courier_line:"Courier & ETA"
+  }
+};
+
+function ykDict(){ return YK_I18N[YK_STATE.lang] || YK_I18N.id; }
+function ykFmtJPY(n){ return new Intl.NumberFormat('ja-JP',{style:'currency',currency:'JPY',maximumFractionDigits:0}).format(n); }
+function ykFmtUSD(n){ return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n); }
+function ykMoney(jpy){ return YK_STATE.currency==='JPY' ? ykFmtJPY(jpy) : ykFmtUSD(jpy/YK_EXCHANGE.jpyPerUsd); }
+function ykLoad(){ try{ return JSON.parse(localStorage.getItem(YK_KEY)||'[]'); }catch(e){return [];} }
+function ykSave(items){ localStorage.setItem(YK_KEY, JSON.stringify(items)); }
+function ykQty(){ return ykLoad().reduce((s,i)=>s+i.qty,0); }
+function ykWAUrl(text){ const num = YK_WA.number.replace(/\D/g,''); return 'https://wa.me/'+num+'?text='+encodeURIComponent(text); }
+function ykApplyLang(){
+  const d = ykDict();
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.getAttribute('data-i18n'); if(d[k]!=null) el.innerHTML=d[k]; });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ const k=el.getAttribute('data-i18n-ph'); if(d[k]!=null) el.setAttribute('placeholder', d[k]); });
+  document.documentElement.lang = YK_STATE.lang==='en'?'en':'id';
+  const btn=document.getElementById('langBtn'); if(btn) btn.textContent=YK_STATE.lang.toUpperCase();
+}
+function ykToggleLang(){ YK_STATE.lang = (YK_STATE.lang==='en'?'id':'en'); ykApplyLang(); if(window.ykRender) ykRender(); }
+function ykSetCurrency(c){ YK_STATE.currency=c; if(window.ykRender) ykRender(); }
+function ykUpdateFab(){ const fab=document.getElementById('fabCart'); if(fab) fab.textContent='🛒 '+ykQty(); }
+  </script>
+</head>
+<body class="bg-white text-zinc-900">
+  <header class="fixed top-0 inset-x-0 z-40 backdrop-blur bg-white/70 border-b">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html#home" class="flex items-center gap-2 text-xl font-semibold tracking-wide">
+        <img src="logo.svg" alt="Logo" class="w-7 h-7" onerror="this.style.display='none'"><span data-i18n="brand">Yuitsu Kimono</span>
+      </a>
+      <nav class="hidden md:flex gap-6 text-sm">
+        <a href="#shop" data-i18n="nav_shop">Toko</a>
+        <a href="#gallery" data-i18n="nav_gallery">Galeri</a>
+        <a href="#reviews" data-i18n="nav_reviews">Ulasan</a>
+        <a href="faq.html" data-i18n="nav_help">FAQ & Size</a>
+        <a href="howto.html" data-i18n="nav_howto">Cara Pesan</a>
+        <a href="#contact" data-i18n="nav_contact">Kontak</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <button class="btn btn-ghost" onclick="ykSetCurrency('JPY')">JPY</button>
+        <button class="btn btn-ghost" onclick="ykSetCurrency('USD')">USD</button>
+        <button id="langBtn" class="btn btn-ghost" onclick="ykToggleLang()">ID</button>
+        <a href="cart.html" class="relative px-3 py-1.5 rounded-full border shadow-sm hover:shadow transition"><span aria-hidden="true">🛒</span><span id="cartQty" class="hidden absolute -top-2 -right-2 text-[10px] bg-black text-white rounded-full px-1.5 py-0.5">0</span><span class="sr-only" data-i18n="cart_title">Keranjang</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-24">
+    <section id="home">
+      <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
+        <div class="space-y-6">
+          <h1 class="text-3xl md:text-5xl font-semibold leading-tight" data-i18n="hero_title">Elegansi Abadi...</h1>
+          <p class="text-zinc-600" data-i18n="hero_sub">Koleksi kimono...</p>
+          <div class="flex gap-3">
+            <a href="#shop" class="btn btn-dark" data-i18n="cta_shop">Belanja Sekarang</a>
+            <a href="#gallery" class="btn btn-ghost" data-i18n="cta_gallery">Lihat Galeri</a>
+          </div>
+          <div class="text-xs text-zinc-600" data-i18n="note">Free shipping...</div>
+        </div>
+        <div class="relative">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Mount_Fuji_from_Fujiyoshida%2C_Yamanashi%2C_Japan.jpg" alt="Mount Fuji" class="rounded-3xl shadow-2xl w-full object-cover max-h-[420px]" />
+          <div class="absolute -bottom-6 -left-6 bg-white/80 backdrop-blur p-4 rounded-2xl shadow md:block hidden"><div class="text-xs uppercase tracking-wide text-zinc-500">Since 2018</div><div class="text-sm font-medium">Handmade • Limited Run</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="shop" class="py-16 md:py-24 bg-zinc-50">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+          <div><h2 class="text-2xl md:text-3xl font-semibold" data-i18n="shop_title">Toko</h2><p class="text-zinc-600" data-i18n="shop_sub">Pilih koleksi favorit Anda.</p></div>
+          <input id="search" class="w-64 px-4 py-2 rounded-xl border bg-white" data-i18n-ph="search_ph" placeholder="Cari kimono, yukata, aksesori..." />
+        </div>
+        <div id="grid" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+      </div>
+    </section>
+
+    <section id="gallery" class="py-16 md:py-24">
+      <div class="max-w-6xl mx-auto px-4">
+        <h2 class="text-2xl md:text-3xl font-semibold mb-8" data-i18n="gallery_title">Galeri</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Kimono_with_sakura_pattern.jpg/640px-Kimono_with_sakura_pattern.jpg" class="rounded-2xl object-cover h-40 md:h-56 w-full" alt="Kimono" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Mount_Fuji_from_Fujiyoshida%2C_Yamanashi%2C_Japan.jpg" class="rounded-2xl object-cover h-40 md:h-56 w-full" alt="Fuji" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Obi_belt_kimono.jpg/640px-Obi_belt_kimono.jpg" class="rounded-2xl object-cover h-40 md:h-56 w-full" alt="Obi" />
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews" class="py-16 md:py-24 bg-zinc-50">
+      <div class="max-w-6xl mx-auto px-4">
+        <h2 class="text-2xl md:text-3xl font-semibold" data-i18n="reviews_title">Ulasan Pelanggan</h2>
+        <div class="grid md:grid-cols-3 gap-6 mt-6">
+          <div class="rounded-2xl border bg-white p-5 shadow-sm"><div class="font-medium mb-1">Nur</div><p class="text-sm text-zinc-700">Kualitasnya luar biasa!</p></div>
+          <div class="rounded-2xl border bg-white p-5 shadow-sm"><div class="font-medium mb-1">Yusril</div><p class="text-sm text-zinc-700">Desain elegan, bahan nyaman.</p></div>
+          <div class="rounded-2xl border bg-white p-5 shadow-sm"><div class="font-medium mb-1">Wanda</div><p class="text-sm text-zinc-700">Warna persis seperti foto.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-16 md:py-24">
+      <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-start">
+        <div class="rounded-2xl border p-4">
+          <div class="font-medium" data-i18n="contact_title">Kontak & Studio</div>
+          <div class="text-sm text-zinc-600" data-i18n="contact_addr">Kyoto • Senin–Sabtu, 10:00–18:00</div>
+          <a id="wa" class="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-black text-white" target="_blank" rel="noreferrer" data-i18n="wa_cta">Chat via WhatsApp</a>
+        </div>
+        <div class="rounded-2xl border p-4">
+          <h3 class="font-medium mb-2" data-i18n="help_title">FAQ, Size Guide & Perawatan</h3>
+          <ul class="list-disc ml-5 text-sm space-y-1">
+            <li><strong data-i18n="pay_title">Pembayaran</strong> — <span data-i18n="pay_text"></span></li>
+            <li><strong data-i18n="ship_title">Pengiriman</strong> — <span data-i18n="ship_text"></span></li>
+            <li><strong data-i18n="size_title">Panduan Ukuran</strong></li>
+            <li><strong data-i18n="care_title">Perawatan</strong> — <span data-i18n="care_text"></span></li>
+          </ul>
+          <div class="mt-3 flex gap-2">
+            <a href="faq.html" class="btn btn-ghost" data-i18n="nav_help">FAQ & Size</a>
+            <a href="howto.html" class="btn btn-ghost" data-i18n="nav_howto">Cara Pesan</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-zinc-100 py-8">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex gap-4 text-zinc-600">
+        <a href="https://instagram.com/yourbrand" target="_blank" class="hover:text-black flex items-center gap-1">Instagram</a>
+        <a href="https://facebook.com/yourbrand"  target="_blank" class="hover:text-black flex items-center gap-1">Facebook</a>
+        <a href="https://twitter.com/yourbrand"   target="_blank" class="hover:text-black flex items-center gap-1">Twitter</a>
+        <a href="https://tiktok.com/@yourbrand"   target="_blank" class="hover:text-black flex items-center gap-1">TikTok</a>
+        <a href="https://linkedin.com/company/yourbrand" target="_blank" class="hover:text-black flex items-center gap-1">LinkedIn</a>
+        <a href="https://youtube.com/@yourbrand" target="_blank" class="hover:text-black flex items-center gap-1">YouTube</a>
+      </div>
+      <div class="text-sm text-zinc-500">Design by Wahyu</div>
+    </div>
+  </footer>
+
+  <a id="fabCart" href="cart.html" class="fixed bottom-4 left-4 z-40 px-4 py-3 rounded-full bg-black text-white shadow-2xl">🛒 0</a>
+
+  <script>
+  const PRODUCTS = [
+    { id:"k1", name:"Kimono Sakura Classic", priceJPY:1280000, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Kimono_with_sakura_pattern.jpg/640px-Kimono_with_sakura_pattern.jpg", desc_id:"Kimono motif sakura klasik.", desc_en:"Classic sakura motif kimono." },
+    { id:"k2", name:"Yukata Summer Breeze",  priceJPY: 780000, img:"https://images.unsplash.com/photo-1548786811-ddc0d6e8f0e1?q=80&w=1000&auto=format&fit=crop", desc_id:"Yukata ringan untuk musim panas.", desc_en:"Lightweight summer yukata." },
+    { id:"k3", name:"Haori Minimal Linen",   priceJPY: 540000, img:"https://images.unsplash.com/photo-1611259182769-6a6d8ed7e55a?q=80&w=1000&auto=format&fit=crop",  desc_id:"Haori linen premium.", desc_en:"Premium linen haori." },
+    { id:"k4", name:"Obi Handwoven Gold",    priceJPY: 360000, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Obi_belt_kimono.jpg/640px-Obi_belt_kimono.jpg",    desc_id:"Obi anyaman tangan.", desc_en:"Hand‑woven gold accent obi." }
+  ];
+  function ykRender(){
+    const q = (document.getElementById('search').value||'').toLowerCase();
+    const list = PRODUCTS.filter(p=>!q || p.name.toLowerCase().includes(q) || (YK_STATE.lang==='en'?p.desc_en:p.desc_id).toLowerCase().includes(q));
+    const grid = document.getElementById('grid');
+    grid.innerHTML = list.map(function(p){
+      return `
+      <div class="rounded-2xl border bg-white overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
+        <img src="${p.img}" alt="${p.name}" class="w-full h-56 object-cover">
+        <div class="p-4 flex-1 flex flex-col gap-3">
+          <div>
+            <h3 class="font-medium text-lg">${p.name}</h3>
+            <p class="text-sm text-zinc-600 line-clamp-2">${YK_STATE.lang==='en'?p.desc_en:p.desc_id}</p>
+          </div>
+          <div class="mt-auto flex items-center justify-between pt-2">
+            <div class="text-lg font-semibold">${ykMoney(p.priceJPY)}</div>
+            <button class="btn btn-dark" onclick="addToCart('${p.id}')" data-i18n="add_btn">Tambah</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+    ykUpdateFab();
+    const cqty = ykQty();
+    document.getElementById('cartQty').classList.toggle('hidden', cqty===0);
+    document.getElementById('cartQty').textContent = cqty;
+  }
+  function addToCart(id){
+    const items = ykLoad();
+    const p = PRODUCTS.find(x=>x.id===id);
+    const ex = items.find(i=>i.id===id);
+    if(ex) ex.qty++; else items.push({id:p.id, name:p.name, priceJPY:p.priceJPY, img:p.img, qty:1});
+    ykSave(items); ykRender();
+    alert((YK_STATE.lang==='en'?'Added: ':'Ditambahkan: ')+p.name);
+  }
+  document.getElementById('search').addEventListener('input', ykRender);
+  document.getElementById('wa').href = ykWAUrl('Halo, saya ingin bertanya.');
+  ykApplyLang(); ykRender();
+  </script>
+</body>
+</html>

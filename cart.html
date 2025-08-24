@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cart — Yuitsu Kimono</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:Inter, ui-sans-serif, system-ui, -apple-system}
+    .btn{padding:.6rem 1rem;border-radius:1rem} .btn-dark{background:#000;color:#fff} .btn-ghost{border:1px solid #e5e7eb}
+    @media print { header, .no-print { display:none !important; } .invoice { display:block !important; } body { background:#fff; } }
+    .invoice{ display:none; max-width:720px; margin:0 auto; }
+    .inv-card{ border:1px solid #e5e7eb; border-radius:16px; padding:24px; }
+    .inv-title{ font-weight:600; font-size:20px; margin-bottom:12px; }
+    .inv-meta{ font-size:12px; color:#52525b }
+    .inv-table{ width:100%; border-collapse:collapse; margin-top:12px }
+    .inv-table th, .inv-table td{ border:1px solid #e5e7eb; padding:8px; font-size:12px; text-align:center }
+    .inv-table th{ background:#fafafa }
+  </style>
+  <script>
+const YK_EXCHANGE = { jpyPerUsd: 155 };
+const YK_WA = { number: "+6281200000000" };
+const YK_KEY = "yk_cart_v1";
+const YK_USED_KEY = "yk_used_tokens_v1";
+const YK_STATE = { currency: "JPY", lang: (navigator.language||'').toLowerCase().startsWith('en')?'en':'id' };
+
+// Shipping rules + couriers
+const YK_SHIP = {
+  domesticFreeThreshold: 10000,
+  couriers: {
+    domestic: [
+      { id: "yamato",  name_id: "Kurir A • Yamato", name_en: "Courier A • Yamato",  fee: 800,  eta_id: "1–2 hari", eta_en: "1–2 days" },
+      { id: "sagawa",  name_id: "Kurir B • Sagawa", name_en: "Courier B • Sagawa",  fee: 600,  eta_id: "2–4 hari", eta_en: "2–4 days" }
+    ],
+    international: [
+      { id: "ems",     name_id: "Kurir A • EMS",    name_en: "Courier A • EMS",     fee: 2500, eta_id: "3–7 hari", eta_en: "3–7 days" },
+      { id: "dhl",     name_id: "Kurir B • DHL",    name_en: "Courier B • DHL",     fee: 3800, eta_id: "2–5 hari", eta_en: "2–5 days" }
+    ]
+  }
+};
+
+const YK_I18N = {
+  id: {
+    brand:"Yuitsu Kimono",
+    nav_shop:"Toko", nav_gallery:"Galeri", nav_reviews:"Ulasan", nav_help:"FAQ & Size", nav_contact:"Kontak", nav_howto:"Cara Pesan",
+    hero_title:"Elegansi Abadi, <span class='italic'>Crafted</span> untuk Momen Istimewa",
+    hero_sub:"Koleksi kimono, yukata, dan aksesori pilihan—menggabungkan tradisi dan sentuhan modern.",
+    cta_shop:"Belanja Sekarang", cta_gallery:"Lihat Galeri", note:"Free shipping di Jepang untuk order ≥ ¥10,000 • 1 USD ≈ ¥155",
+    shop_title:"Toko", shop_sub:"Pilih koleksi favorit Anda.", search_ph:"Cari kimono, yukata, aksesori...",
+    gallery_title:"Galeri", reviews_title:"Ulasan Pelanggan", help_title:"FAQ, Size Guide & Perawatan",
+    pay_title:"Pembayaran", pay_text:"Versi ini tidak terhubung API pembayaran. Gunakan WhatsApp/transfer bank.",
+    ship_title:"Pengiriman", ship_text:"Gratis domestik ≥ ¥10,000. Internasional dihitung di keranjang.",
+    size_title:"Panduan Ukuran (Kimono/Yukata/Haori)", care_title:"Perawatan",
+    care_text:"Cuci lembut (cold), jemur teduh, setrika rendah dari sisi dalam.",
+    contact_title:"Kontak & Studio", contact_addr:"Kyoto • Senin–Sabtu, 10:00–18:00",
+    wa_cta:"Chat via WhatsApp", add_btn:"Tambah", subtotal:"Subtotal", discount:"Diskon", shipping:"Ongkir", total:"Total",
+    checkout:"Lanjut ke WhatsApp", empty:"Belum ada item.", qty:"Qty", remove:"Hapus",
+    cart_title:"Keranjang", back_shop:"Kembali belanja", steps_title:"Langkah Pemesanan",
+    steps_1:"Pilih produk & klik Tambah", steps_2:"Buka halaman Keranjang",
+    steps_3:"Kirim pesanan via WhatsApp", steps_4:"Selesaikan pembayaran sesuai instruksi",
+    howto_title:"Cara Pesan", howto_intro:"Ini adalah proses sederhana tanpa integrasi API.",
+    code_label:"Kode Kupon", apply:"Terapkan", invalid:"Kupon tidak valid",
+    invoice:"Cetak Invoice", destination:"Tujuan", domestic:"Domestik (JP)", international:"Internasional",
+    courier:"Kurir", eta:"Estimasi", free_ship:"Gratis", used:"sudah dipakai", coupon_used:"Kupon sudah digunakan",
+    invoice_title:"Invoice", invoice_to:"Kepada", invoice_date:"Tanggal", invoice_items:"Item", invoice_price:"Harga", invoice_qty:"Qty",
+    invoice_line:"Jumlah", invoice_subtotal:"Subtotal", invoice_discount:"Diskon", invoice_shipping:"Ongkir", invoice_total:"Total",
+    courier_line:"Kurir & Estimasi"
+  },
+  en: {
+    brand:"Yuitsu Kimono",
+    nav_shop:"Shop", nav_gallery:"Gallery", nav_reviews:"Reviews", nav_help:"FAQ & Size", nav_contact:"Contact", nav_howto:"How to Order",
+    hero_title:"Timeless Elegance, <span class='italic'>Crafted</span> for Special Moments",
+    hero_sub:"A curated selection of kimono, yukata, and accessories—where tradition meets modern comfort.",
+    cta_shop:"Shop Now", cta_gallery:"View Gallery", note:"Free shipping in Japan for orders ≥ ¥10,000 • 1 USD ≈ ¥155",
+    shop_title:"Shop", shop_sub:"Choose your favorites.", search_ph:"Search kimono, yukata, accessories...",
+    gallery_title:"Gallery", reviews_title:"Customer Reviews", help_title:"FAQ, Size Guide & Care",
+    pay_title:"Payments", pay_text:"This demo does not connect to payment APIs. Use WhatsApp/bank transfer.",
+    ship_title:"Shipping", ship_text:"Domestic Japan free ≥ ¥10,000. International calculated in cart.",
+    size_title:"Size Guide (Kimono/Yukata/Haori)", care_title:"Care",
+    care_text:"Gentle wash (cold), shade dry, low iron from the inside.",
+    contact_title:"Contact & Studio", contact_addr:"Kyoto • Mon–Sat, 10:00–18:00",
+    wa_cta:"Chat via WhatsApp", add_btn:"Add", subtotal:"Subtotal", discount:"Discount", shipping:"Shipping", total:"Total",
+    checkout:"Continue on WhatsApp", empty:"No items yet.", qty:"Qty", remove:"Remove",
+    cart_title:"Cart", back_shop:"Back to shop", steps_title:"Ordering Steps",
+    steps_1:"Choose products & click Add", steps_2:"Open the Cart page",
+    steps_3:"Send order via WhatsApp", steps_4:"Complete payment as instructed",
+    howto_title:"How to Order", howto_intro:"A simple flow without payment APIs.",
+    code_label:"Coupon Code", apply:"Apply", invalid:"Invalid coupon",
+    invoice:"Print Invoice", destination:"Destination", domestic:"Domestic (JP)", international:"International",
+    courier:"Courier", eta:"ETA", free_ship:"Free", used:"used", coupon_used:"Coupon already used",
+    invoice_title:"Invoice", invoice_to:"Bill To", invoice_date:"Date", invoice_items:"Items", invoice_price:"Price", invoice_qty:"Qty",
+    invoice_line:"Line Total", invoice_subtotal:"Subtotal", invoice_discount:"Discount", invoice_shipping:"Shipping", invoice_total:"Total",
+    courier_line:"Courier & ETA"
+  }
+};
+
+function ykDict(){ return YK_I18N[YK_STATE.lang] || YK_I18N.id; }
+function ykFmtJPY(n){ return new Intl.NumberFormat('ja-JP',{style:'currency',currency:'JPY',maximumFractionDigits:0}).format(n); }
+function ykFmtUSD(n){ return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n); }
+function ykMoney(jpy){ return YK_STATE.currency==='JPY' ? ykFmtJPY(jpy) : ykFmtUSD(jpy/YK_EXCHANGE.jpyPerUsd); }
+function ykLoad(){ try{ return JSON.parse(localStorage.getItem(YK_KEY)||'[]'); }catch(e){return [];} }
+function ykSave(items){ localStorage.setItem(YK_KEY, JSON.stringify(items)); }
+function ykQty(){ return ykLoad().reduce((s,i)=>s+i.qty,0); }
+function ykWAUrl(text){ const num = YK_WA.number.replace(/\D/g,''); return 'https://wa.me/'+num+'?text='+encodeURIComponent(text); }
+function ykApplyLang(){
+  const d = ykDict();
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.getAttribute('data-i18n'); if(d[k]!=null) el.innerHTML=d[k]; });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ const k=el.getAttribute('data-i18n-ph'); if(d[k]!=null) el.setAttribute('placeholder', d[k]); });
+  document.documentElement.lang = YK_STATE.lang==='en'?'en':'id';
+  const btn=document.getElementById('langBtn'); if(btn) btn.textContent=YK_STATE.lang.toUpperCase();
+}
+function ykToggleLang(){ YK_STATE.lang = (YK_STATE.lang==='en'?'id':'en'); ykApplyLang(); if(window.ykRender) ykRender(); }
+function ykSetCurrency(c){ YK_STATE.currency=c; if(window.ykRender) ykRender(); }
+function ykUpdateFab(){ const fab=document.getElementById('fabCart'); if(fab) fab.textContent='🛒 '+ykQty(); }
+  </script>
+</head>
+<body class="bg-white text-zinc-900">
+  <header class="border-b no-print">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="index.html" class="font-semibold" data-i18n="brand">Yuitsu Kimono</a>
+      <div class="flex gap-2">
+        <button class="btn btn-ghost" onclick="ykSetCurrency('JPY')">JPY</button>
+        <button class="btn btn-ghost" onclick="ykSetCurrency('USD')">USD</button>
+        <button id="langBtn" class="btn btn-ghost" onclick="ykToggleLang()">ID</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-semibold mb-4" data-i18n="cart_title">Keranjang</h1>
+
+    <div id="wrap"></div>
+
+    <div class="mt-6 grid gap-3 md:grid-cols-[1fr,auto] no-print">
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-2">
+          <label class="text-sm w-28" for="destination" data-i18n="destination">Tujuan</label>
+          <select id="destination" class="px-3 py-2 rounded-xl border">
+            <option value="domestic" data-i18n="domestic">Domestik (JP)</option>
+            <option value="international" data-i18n="international">Internasional</option>
+          </select>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <label class="text-sm w-28" data-i18n="courier">Kurir</label>
+          <select id="courier" class="px-3 py-2 rounded-xl border"></select>
+          <div class="text-sm text-zinc-500"><span data-i18n="eta">Estimasi</span>: <span id="etaTxt">—</span></div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <label class="text-sm w-28" for="coupon" data-i18n="code_label">Kode Kupon</label>
+          <input id="coupon" class="px-3 py-2 rounded-xl border" placeholder="DISKON10, POTONG500, ONE-ABCD..." />
+          <button class="btn btn-ghost" onclick="applyCoupon()" data-i18n="apply">Terapkan</button>
+        </div>
+      </div>
+      <div class="flex gap-2 justify-end no-print">
+        <button class="btn btn-ghost" onclick="window.print()" data-i18n="invoice">Cetak Invoice</button>
+        <a id="btnCheckout" class="btn btn-dark" target="_blank" rel="noreferrer" data-i18n="checkout">Lanjut ke WhatsApp</a>
+      </div>
+    </div>
+
+    <section class="invoice mt-8">
+      <div class="inv-card">
+        <div class="flex items-center gap-3 mb-2">
+          <img src="logo.svg" alt="Logo" style="width:28px;height:28px">
+          <div class="inv-title" data-i18n="invoice_title">Invoice</div>
+        </div>
+        <div class="inv-meta">
+          <span data-i18n="invoice_date">Tanggal</span>: <span id="invDate"></span> •
+          <span data-i18n="invoice_to">Kepada</span>: <span id="invTo">Customer</span>
+        </div>
+        <table class="inv-table">
+          <thead>
+            <tr>
+              <th data-i18n="invoice_items">Item</th>
+              <th data-i18n="invoice_price">Harga</th>
+              <th data-i18n="invoice_qty">Qty</th>
+              <th data-i18n="invoice_line">Jumlah</th>
+            </tr>
+          </thead>
+          <tbody id="invRows"></tbody>
+          <tfoot>
+            <tr><th colspan="3" style="text-align:right" data-i18n="invoice_subtotal">Subtotal</th><td id="invSub"></td></tr>
+            <tr><th colspan="3" style="text-align:right" data-i18n="invoice_discount">Diskon</th><td id="invDisc"></td></tr>
+            <tr><th colspan="3" style="text-align:right" data-i18n="courier_line">Kurir & Estimasi</th><td id="invCourier"></td></tr>
+            <tr><th colspan="3" style="text-align:right" data-i18n="invoice_shipping">Ongkir</th><td id="invShip"></td></tr>
+            <tr><th colspan="3" style="text-align:right" data-i18n="invoice_total">Total</th><td id="invTot" style="font-weight:600"></td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+  // expiry dates baked in at build time:
+  const DISCOUNTS = {
+    "DISKON10":  { type:"percent", value:0.10, expires: "2025-10-07" },
+    "WELCOME5":  { type:"percent", value:0.05,  expires: "2025-09-02" },
+    "POTONG500": { type:"nominal", value:500,   expires: null },
+    "ONE-ABCD1234":{ type:"nominal", value:1000, oneTime:true, expires: "2025-10-07" }
+  };
+  let currentCoupon = null;
+  let destination = "domestic";
+  let courierId = null;
+
+  function usedTokens(){ try{ return JSON.parse(localStorage.getItem(YK_USED_KEY)||'[]'); }catch(e){ return []; } }
+  function markTokenUsed(code){ const arr = usedTokens(); if(!arr.includes(code)){ arr.push(code); localStorage.setItem(YK_USED_KEY, JSON.stringify(arr)); } }
+  function isTokenUsed(code){ return usedTokens().includes(code); }
+
+  function isCouponValid(code){
+    const c = DISCOUNTS[code];
+    if(!c) return false;
+    if(c.oneTime && isTokenUsed(code)) return false;
+    if(!c.expires) return true;
+    const today = new Date(); today.setHours(0,0,0,0);
+    const exp = new Date(c.expires+"T00:00:00");
+    return exp >= today;
+  }
+
+  function populateCouriers(){
+    const select = document.getElementById('courier');
+    const group = destination === "domestic" ? YK_SHIP.couriers.domestic : YK_SHIP.couriers.international;
+    select.innerHTML = group.map(c => {
+      const name = (YK_STATE.lang==='en') ? c.name_en : c.name_id;
+      return `<option value="${c.id}">${name} — ${ykMoney(c.fee)}</option>`;
+    }).join('');
+    courierId = group[0]?.id || null;
+    updateEta();
+  }
+
+  function updateEta(){
+    const group = destination === "domestic" ? YK_SHIP.couriers.domestic : YK_SHIP.couriers.international;
+    const c = group.find(x=>x.id===courierId);
+    const eta = (YK_STATE.lang==='en') ? (c?.eta_en || "—") : (c?.eta_id || "—");
+    document.getElementById('etaTxt').textContent = eta;
+  }
+
+  function courierFee(afterDisc){
+    const group = destination === "domestic" ? YK_SHIP.couriers.domestic : YK_SHIP.couriers.international;
+    const c = group.find(x=>x.id===courierId) || group[0];
+    if(destination==="domestic" && afterDisc >= YK_SHIP.domesticFreeThreshold){ return 0; }
+    return c ? c.fee : 0;
+  }
+
+  function applyCoupon(){
+    const d = ykDict();
+    const code = (document.getElementById('coupon').value||'').trim().toUpperCase();
+    if(!code) return;
+    if(DISCOUNTS[code] && isCouponValid(code)){
+      currentCoupon = code;
+      ykRender();
+      alert((YK_STATE.lang==='en'?'Applied coupon: ':'Kupon diterapkan: ')+code);
+      if(DISCOUNTS[code].oneTime){ markTokenUsed(code); }
+    } else {
+      alert(DISCOUNTS[code] && DISCOUNTS[code].oneTime ? (d.coupon_used) : d.invalid);
+      currentCoupon = null;
+      ykRender();
+    }
+  }
+
+  function ykRender(){
+    const d = ykDict();
+    const items = ykLoad();
+    const wrap = document.getElementById('wrap');
+    if(items.length===0){
+      wrap.innerHTML = `<div class="text-sm text-zinc-600" data-i18n="empty">${d.empty}</div>`;
+      document.getElementById('btnCheckout').classList.add('pointer-events-none','opacity-50');
+      return;
+    }
+    let subtotal = 0;
+    const rows = items.map(it=>{
+      subtotal += it.priceJPY*it.qty;
+      return `
+        <div class="flex items-center gap-3 border rounded-2xl p-3 mb-3">
+          <img src="${it.img}" class="w-16 h-16 object-cover rounded-xl" alt="${it.name}">
+          <div class="flex-1">
+            <div class="font-medium">${it.name}</div>
+            <div class="text-xs text-zinc-500" data-i18n="qty">${d.qty}</div>
+            <div class="flex gap-2 mt-1">
+              <button class="btn btn-ghost" onclick="chgQty('${it.id}',-1)">-</button>
+              <span class="px-2">${it.qty}</span>
+              <button class="btn btn-ghost" onclick="chgQty('${it.id}',1)">+</button>
+              <button class="btn btn-ghost" onclick="rmv('${it.id}')" data-i18n="remove">${d.remove}</button>
+            </div>
+          </div>
+          <div class="text-sm font-medium">${ykMoney(it.priceJPY*it.qty)}</div>
+        </div>`;
+    }).join('');
+
+    // discount calc
+    let discountJPY = 0;
+    if(currentCoupon && DISCOUNTS[currentCoupon] && isCouponValid(currentCoupon)){
+      const c = DISCOUNTS[currentCoupon];
+      if(c.type === "percent") discountJPY = Math.round(subtotal * c.value);
+      if(c.type === "nominal") discountJPY = Math.min(subtotal, Math.round(c.value));
+    }
+    const afterDisc = subtotal - discountJPY;
+    const shipJPY = courierFee(afterDisc);
+    const totalJPY = afterDisc + shipJPY;
+
+    // courier display
+    const grp = destination === "domestic" ? YK_SHIP.couriers.domestic : YK_SHIP.couriers.international;
+    const cur = grp.find(x=>x.id===courierId) || grp[0];
+    const etaText = (YK_STATE.lang==='en') ? (cur?.eta_en || "—") : (cur?.eta_id || "—");
+    const nameText = (YK_STATE.lang==='en') ? (cur?.name_en || "—") : (cur?.name_id || "—");
+    const shipText = (destination==="domestic" && afterDisc>=YK_SHIP.domesticFreeThreshold) ? d.free_ship : ykMoney(shipJPY);
+
+    wrap.innerHTML = rows + `
+      <div class="flex items-center justify-between text-sm mt-4"><span data-i18n="subtotal">${d.subtotal}</span><span class="font-semibold">${ykMoney(subtotal)}</span></div>
+      <div class="flex items-center justify-between text-sm"><span data-i18n="discount">${d.discount}</span><span class="font-semibold">-${ykMoney(discountJPY)} ${currentCoupon? '('+currentCoupon+')' : ''}</span></div>
+      <div class="flex items-center justify-between text-sm"><span>${d.courier}</span><span class="font-semibold">${nameText} • ${etaText}</span></div>
+      <div class="flex items-center justify-between text-sm"><span data-i18n="shipping">${d.shipping}</span><span class="font-semibold">${shipText}</span></div>
+      <div class="flex items-center justify-between text-sm"><span data-i18n="total">${d.total}</span><span class="font-semibold">${ykMoney(totalJPY)}</span></div>`;
+
+    const lines = items.map(it=>`• ${it.name} x ${it.qty} = ¥${it.priceJPY*it.qty}`).join('%0A');
+    const msg = `[ORDER]%0A${lines}%0A—%0ASubtotal: ¥${subtotal}%0ADiscount: ${currentCoupon||'-'}%0ACourier: ${nameText} (${etaText})%0AShipping: ${destination}%0ATotal: ¥${totalJPY}%0A%0AName:%0AAddress:%0APayment method:`;
+    document.getElementById('btnCheckout').href = ykWAUrl(msg);
+
+    // Invoice
+    document.getElementById('invDate').textContent = new Date().toISOString().slice(0,10);
+    const invRows = items.map(it=>`<tr><td>${it.name}</td><td>${ykMoney(it.priceJPY)}</td><td>${it.qty}</td><td>${ykMoney(it.priceJPY*it.qty)}</td></tr>`).join('');
+    document.getElementById('invRows').innerHTML = invRows;
+    document.getElementById('invSub').textContent = ykMoney(subtotal);
+    document.getElementById('invDisc').textContent = '-'+ykMoney(discountJPY);
+    document.getElementById('invShip').textContent = shipText;
+    document.getElementById('invCourier').textContent = `${nameText} • ${etaText}`;
+    document.getElementById('invTot').textContent = ykMoney(totalJPY);
+  }
+
+  function chgQty(id,delta){ const items = ykLoad(); const ex = items.find(i=>i.id===id); if(!ex) return; ex.qty += delta; if(ex.qty<=0) items.splice(items.indexOf(ex),1); ykSave(items); ykRender(); }
+  function rmv(id){ const items = ykLoad().filter(i=>i.id!==id); ykSave(items); ykRender(); }
+
+  document.getElementById('destination').addEventListener('change', (e)=>{ destination=e.target.value; populateCouriers(); ykRender(); });
+  document.getElementById('courier').addEventListener('change', (e)=>{ courierId=e.target.value; updateEta(); ykRender(); });
+
+  ykApplyLang(); populateCouriers(); ykRender();
+  </script>
+</body>
+</html>
