@@ -268,3 +268,18 @@ Object.assign(window.T, {
 announce:{en:"Free shipping in Japan over ¥15,000  ·  Worldwide shipping  ·  Every abaya is one of a kind",jp:"国内送料 15,000円以上で無料　·　海外発送可　·　すべて一点もの"},
 in_stock:{en:"Stock",jp:"在庫"}
 });
+
+/* ---- v5: filosofi sesuai bio Instagram & logo ---- */
+Object.assign(window.T,{
+tagline_pledge:{en:"Giving new life to traditional kimono",jp:"伝統の着物に、新しい命を"},
+pledge_1:{en:"We give new life to traditional Japanese kimono by transforming them into unique, timeless clothing. Each piece is carefully handcrafted from authentic kimono fabric, preserving the beauty, history and artistry woven into every textile.",jp:"私たちは、日本の伝統的な着物に新しい命を吹き込み、唯一無二の、時を超える服へと生まれ変わらせます。一着一着、本物の着物地から丁寧に手仕事で仕立て、織り込まれた美しさ、歴史、技を大切に受け継ぎます。"},
+pledge_2:{en:"By reimagining these traditional materials, we create modern garments that blend Japanese heritage with contemporary style. Every item is one of a kind, because each kimono carries its own story, patterns and character.",jp:"伝統の素材を新しく見つめ直し、日本の伝統と現代のスタイルが調和する服をつくります。どの着物にもそれぞれの物語、柄、個性があるからこそ、一点一点がただ一つの作品です。"},
+pil_1_h:{en:"Heritage",jp:"受け継ぐ"},
+pil_1_t:{en:"We keep the history and artistry of each kimono alive in what it becomes.",jp:"着物が持つ歴史と技を、新しい姿の中に生かし続けます。"},
+pil_2_h:{en:"One of a kind",jp:"唯一無二"},
+pil_2_t:{en:"No two kimono are alike, so no two abayas are alike.",jp:"同じ着物は二つとありません。だからアバヤも、すべて一点ものです。"},
+pil_3_h:{en:"Sustainability",jp:"サステナブル"},
+pil_3_t:{en:"Upcycling vintage kimono into wearable art, so beautiful cloth is not thrown away.",jp:"古い着物をアップサイクルし、着られる芸術へ。美しい布を捨てずに未来へつなぎます。"},
+phil_h:{en:"Our philosophy",jp:"ものづくりの想い"},
+phil_sub:{en:"Celebrating the elegance of Japanese culture, one kimono at a time.",jp:"日本文化の美しさを、一枚の着物から。"}
+});
