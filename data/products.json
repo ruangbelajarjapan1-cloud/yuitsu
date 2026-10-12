@@ -18,7 +18,9 @@
     "status": "TRUE",
     "story_en": "Furisode are the most formal kimono for young unmarried women, known for their long swinging sleeves. We keep the finest panels whole so the main motif flows across the abaya.",
     "story_jp": "振袖は未婚女性の第一礼装で、長く揺れる袖が特徴です。もっとも美しい柄の部分をそのまま生かし、アバヤの上に柄が流れるように仕立てます。",
-    "before_image": ""
+    "before_image": "",
+    "color": "red",
+    "motif": "kiku"
   },
   {
     "id": "K002",
@@ -39,7 +41,9 @@
     "status": "TRUE",
     "story_en": "Houmongi are formal 'visiting' kimono whose patterns flow across the seams. We place the pattern so it continues naturally over the front and sleeves.",
     "story_jp": "訪問着は、縫い目をまたいで柄がつながる格式ある着物です。前身頃から袖へ柄が自然に続くよう配置します。",
-    "before_image": ""
+    "before_image": "",
+    "color": "ivory",
+    "motif": "ume"
   },
   {
     "id": "K003",
@@ -60,7 +64,9 @@
     "status": "TRUE",
     "story_en": "Komon carry a small pattern repeated all over the cloth, and are relaxed everyday kimono. That makes them easy to cut and easy to wear.",
     "story_jp": "小紋は細かな柄が全体に繰り返される、日常向けの着物です。裁ちやすく、普段にも着やすい生地です。",
-    "before_image": ""
+    "before_image": "",
+    "color": "blue",
+    "motif": "seigaiha"
   },
   {
     "id": "K004",
@@ -81,7 +87,9 @@
     "status": "TRUE",
     "story_en": "Tsumugi is woven from spun silk thread, giving a textured, durable cloth with a natural look. Every length has its own character.",
     "story_jp": "紬は紡いだ絹糸で織られ、自然な風合いと丈夫さを持つ生地です。一反ごとに表情が異なります。",
-    "before_image": ""
+    "before_image": "",
+    "color": "beige",
+    "motif": "stripe"
   },
   {
     "id": "K005",
@@ -102,7 +110,9 @@
     "status": "TRUE",
     "story_en": "Iromuji are kimono in a single colour with no large pattern. Their quiet colour and woven texture suit a minimal, elegant abaya.",
     "story_jp": "色無地は一色染めで大きな柄のない着物です。静かな色と織りの質感が、ミニマルで上品なアバヤに合います。",
-    "before_image": ""
+    "before_image": "",
+    "color": "green",
+    "motif": "plain"
   },
   {
     "id": "K006",
@@ -123,7 +133,9 @@
     "status": "TRUE",
     "story_en": "A haori is the short jacket worn over a kimono. Its lighter weight and lining make an easy layering abaya.",
     "story_jp": "羽織は着物の上に重ねる上着です。軽やかな生地と羽裏を生かし、重ね着しやすいアバヤに仕立てます。",
-    "before_image": ""
+    "before_image": "",
+    "color": "pink",
+    "motif": "sakura"
   },
   {
     "id": "K007",
@@ -144,7 +156,9 @@
     "status": "TRUE",
     "story_en": "Tomesode is the formal kimono for married women, with patterns only along the hem. We keep that hem pattern as the border of the abaya.",
     "story_jp": "留袖は既婚女性の礼装で、柄は裾にだけ配されます。その裾模様をアバヤの縁取りとして生かします。",
-    "before_image": ""
+    "before_image": "",
+    "color": "black",
+    "motif": "pine"
   },
   {
     "id": "K008",
@@ -165,6 +179,8 @@
     "status": "TRUE",
     "story_en": "Yukata are unlined cotton kimono made for summer. The cloth is light and breathable, which suits a fresh summer abaya.",
     "story_jp": "浴衣は夏のための裏地のない綿の着物です。軽く風通しのよい生地で、涼やかなアバヤになります。",
-    "before_image": ""
+    "before_image": "",
+    "color": "blue",
+    "motif": "hydrangea"
   }
 ]
