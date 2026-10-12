@@ -392,3 +392,9 @@ footer.site .chips span{background:#fff}
 .igtiles a::after{content:"";position:absolute;inset:0;background:rgba(46,78,154,.0);transition:.3s}
 .igtiles a:hover::after{background:rgba(46,78,154,.35)}
 @media(max-width:900px){.igtiles{grid-template-columns:repeat(3,1fr)}}
+
+/* logo pembayaran */
+.paylogos{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.paylogos svg{width:54px;height:34px;background:#fff;border:1px solid #e3dcd8;border-radius:6px;padding:1px}
+.chips.paylogos{margin-top:12px}
+.chips.paylogos span{display:none}
