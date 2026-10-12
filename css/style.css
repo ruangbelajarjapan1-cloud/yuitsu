@@ -528,3 +528,9 @@ html.leaving body::before,html.leaving body::after{animation:ld-in .38s ease for
 .rvi{aspect-ratio:4/3;background-size:cover;background-position:center}
 .rvc blockquote{padding:20px 22px 8px;font-family:var(--serif);font-size:1.15rem;line-height:1.7;color:var(--ink)}
 .rvc figcaption{padding:0 22px 20px;font-size:.78rem;letter-spacing:.1em;color:var(--gold2)}
+
+/* ikon keranjang & menu (SVG, tampil di semua perangkat) */
+.cart-btn{display:grid;place-items:center;width:42px;height:42px;color:var(--indigo)}
+.cart-btn svg,.burger svg{display:block;width:24px;height:24px}
+.cart-btn:hover{color:var(--gold2)}
+.burger{color:var(--indigo)}
