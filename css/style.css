@@ -446,15 +446,16 @@ footer.site a:hover{color:#E4C3AE}
 
 /* ===== v6: loading elegan antar halaman ===== */
 body::before{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;
-  background:radial-gradient(ellipse at 50% 40%,#FFFDFB,var(--bg2)) ;
-  animation:ld-out .8s ease 1.5s forwards}
-body::before,body::after{will-change:opacity}
-body::after{content:"";position:fixed;left:50%;top:50%;width:112px;height:112px;margin:-92px 0 0 -56px;z-index:9999;pointer-events:none;
-  background:url(../images/logo.png) center/contain no-repeat;animation:ld-logo 1.6s ease-in-out infinite,ld-out .8s ease 1.5s forwards}
-body.ready::before,body.ready::after{animation-delay:0s,.35s}
-body.ready::before{animation:ld-out .55s ease .45s forwards}
-body.ready::after{animation:ld-logo 1.6s ease-in-out infinite,ld-out .55s ease .45s forwards}
-@keyframes ld-logo{0%,100%{transform:scale(.94);opacity:.82}50%{transform:scale(1.04);opacity:1}}
+  background:radial-gradient(ellipse at 50% 40%,#FFFDFB,var(--bg2));animation:ld-out .7s ease 2.2s forwards}
+body::after{content:"YUITSU";position:fixed;left:50%;top:50%;width:240px;height:210px;margin:-120px 0 0 -120px;z-index:9999;pointer-events:none;
+  box-sizing:border-box;padding-top:138px;text-align:center;font-family:var(--serif);font-size:1.5rem;letter-spacing:.5em;text-indent:.5em;color:var(--indigo);
+  background:url(../images/logo.png) center top/110px auto no-repeat,linear-gradient(90deg,transparent,var(--gold),transparent) center bottom/0 2px no-repeat;
+  animation:ld-bar 1.3s cubic-bezier(.4,0,.2,1) infinite,ld-out .7s ease 2.2s forwards}
+body.ready::before{animation:ld-out .6s ease .95s forwards}
+body.ready::after{animation:ld-bar 1.3s cubic-bezier(.4,0,.2,1) infinite,ld-out .6s ease .95s forwards}
+body.quick.ready::before{animation:ld-out .35s ease .05s forwards}
+body.quick.ready::after{animation:ld-out .25s ease 0s forwards}
+@keyframes ld-bar{0%{background-size:110px auto,0 2px;opacity:.9}60%{background-size:110px auto,200px 2px;opacity:1}100%{background-size:110px auto,200px 2px;opacity:.9}}
 @keyframes ld-out{to{opacity:0;visibility:hidden}}
 @keyframes ld-in{from{opacity:0;visibility:visible}to{opacity:1;visibility:visible}}
 html.leaving body::before,html.leaving body::after{animation:ld-in .38s ease forwards!important;opacity:0}
@@ -507,3 +508,23 @@ html.leaving body::before,html.leaving body::after{animation:ld-in .38s ease for
 @media(prefers-reduced-motion:reduce){.sk{animation:none}}
 .card,.post{animation:fin .6s ease both}
 @keyframes fin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+
+/* ===== v8: tombol kembali ke atas, cerita kain, ulasan, custom ===== */
+#toTop{position:fixed;right:18px;bottom:20px;z-index:150;width:48px;height:48px;border-radius:50%;border:1px solid rgba(176,124,94,.55);background:rgba(252,250,247,.94);color:var(--indigo);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;cursor:pointer;box-shadow:0 10px 28px -12px rgba(94,18,24,.5);opacity:0;visibility:hidden;transform:translateY(12px);transition:.35s}
+#toTop.show{opacity:1;visibility:visible;transform:none}
+#toTop svg{width:16px;height:16px}
+#toTop span{font-size:.5rem;letter-spacing:.14em;line-height:1;margin-top:1px}
+#toTop:hover{background:var(--indigo);color:#fff;transform:translateY(-3px)}
+.story{margin-top:18px;padding:14px 16px;background:var(--bg2);border-left:2px solid var(--gold)}
+.story h4{font-family:var(--serif);font-size:1.05rem;font-weight:500;color:var(--indigo);margin-bottom:6px}
+.story img{width:100%;max-height:190px;object-fit:cover;margin-bottom:8px}
+.story p{font-size:.84rem;line-height:1.8;color:var(--muted);margin:0}
+.custombar{display:flex;align-items:center;justify-content:space-between;gap:28px;padding:38px 40px;border:1px solid var(--line);background:linear-gradient(120deg,#fff,var(--bg2))}
+.custombar h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.5rem,3vw,2.1rem);color:var(--indigo);margin:4px 0 8px;line-height:1.35}
+.custombar p{color:var(--muted);max-width:560px;font-size:.92rem}
+@media(max-width:800px){.custombar{flex-direction:column;align-items:flex-start;padding:28px 22px}}
+.rvc{background:#fff;border:1px solid var(--line);margin:0;display:flex;flex-direction:column}
+.rvi{aspect-ratio:4/3;background-size:cover;background-position:center}
+.rvc blockquote{padding:20px 22px 8px;font-family:var(--serif);font-size:1.15rem;line-height:1.7;color:var(--ink)}
+.rvc figcaption{padding:0 22px 20px;font-size:.78rem;letter-spacing:.1em;color:var(--gold2)}
