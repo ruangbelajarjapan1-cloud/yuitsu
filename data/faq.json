@@ -1,0 +1,167 @@
+[
+ {
+  "id": "F001",
+  "category_en": "Ordering",
+  "category_jp": "ご注文",
+  "q_en": "How do I order?",
+  "q_jp": "注文の方法を教えてください。",
+  "a_en": "Choose a kimono, press “Add to cart”, then follow the checkout. You will receive a confirmation email with payment instructions.",
+  "a_jp": "着物を選んで「カートに入れる」を押し、ご注文手続きに進んでください。ご注文後、お支払い方法を記載した確認メールをお送りします。",
+  "sort": 1,
+  "status": "TRUE"
+ },
+ {
+  "id": "F002",
+  "category_en": "Ordering",
+  "category_jp": "ご注文",
+  "q_en": "Are all kimono really one of a kind?",
+  "q_jp": "すべて一点ものですか？",
+  "a_en": "Yes. Each kimono is a single piece. When it is sold, it is gone. If you like something, we recommend ordering early.",
+  "a_jp": "はい、すべて一点限りです。販売済みの着物は再入荷しません。気になる着物は、お早めにお求めください。",
+  "sort": 2,
+  "status": "TRUE"
+ },
+ {
+  "id": "F003",
+  "category_en": "Ordering",
+  "category_jp": "ご注文",
+  "q_en": "Can I reserve a kimono?",
+  "q_jp": "取り置きはできますか？",
+  "a_en": "Please contact us. We can hold a kimono for a short time when we are able to. Orders are confirmed once payment is received.",
+  "a_jp": "お問い合わせください。可能な場合は、短期間のお取り置きをいたします。ご注文はお支払い確認をもってお取り置き・確定となります。",
+  "sort": 3,
+  "status": "TRUE"
+ },
+ {
+  "id": "F004",
+  "category_en": "Payment",
+  "category_jp": "お支払い",
+  "q_en": "Which payment methods do you accept?",
+  "q_jp": "どんな支払い方法がありますか？",
+  "a_en": "PayPal, credit card (secure payment link), bank transfer, and cash on delivery (Japan only). PayPal is the easiest for overseas customers.",
+  "a_jp": "PayPal、クレジットカード（決済リンク）、銀行振込、代金引換（国内のみ）に対応しています。海外のお客様にはPayPalが簡単です。",
+  "sort": 4,
+  "status": "TRUE"
+ },
+ {
+  "id": "F005",
+  "category_en": "Payment",
+  "category_jp": "お支払い",
+  "q_en": "When do I pay?",
+  "q_jp": "いつ支払えばよいですか？",
+  "a_en": "Please pay within 7 days of your order. We reserve the kimono for you during this time. After payment is confirmed, we prepare your shipment.",
+  "a_jp": "ご注文から7日以内にお支払いください。その間はお客様の分として確保します。入金確認後、発送の準備に入ります。",
+  "sort": 5,
+  "status": "TRUE"
+ },
+ {
+  "id": "F006",
+  "category_en": "Payment",
+  "category_jp": "お支払い",
+  "q_en": "Is paying with PayPal or card safe?",
+  "q_jp": "PayPalやカード決済は安全ですか？",
+  "a_en": "Yes. Payments are handled by PayPal or a secure card payment service. We never see or store your card number.",
+  "a_jp": "はい。お支払いはPayPalまたは安全な決済サービスで処理され、カード番号が当店に伝わることはありません。",
+  "sort": 6,
+  "status": "TRUE"
+ },
+ {
+  "id": "F007",
+  "category_en": "Shipping",
+  "category_jp": "配送",
+  "q_en": "How long does delivery take?",
+  "q_jp": "届くまでどのくらいかかりますか？",
+  "a_en": "In Japan, we ship within 3–7 business days after payment and delivery takes 1–3 days. Overseas delivery usually takes 5–14 days depending on the country.",
+  "a_jp": "国内は入金確認後3〜7営業日で発送し、お届けまで1〜3日です。海外は国により5〜14日程度かかります。",
+  "sort": 7,
+  "status": "TRUE"
+ },
+ {
+  "id": "F008",
+  "category_en": "Shipping",
+  "category_jp": "配送",
+  "q_en": "How much is shipping?",
+  "q_jp": "送料はいくらですか？",
+  "a_en": "Within Japan: ¥800 flat, free for orders over ¥15,000. Overseas shipping is quoted by email after your order, based on weight and destination.",
+  "a_jp": "国内は一律800円、15,000円以上のご注文は無料です。海外送料は、重さと配送先に応じて、ご注文後にメールでお見積りします。",
+  "sort": 8,
+  "status": "TRUE"
+ },
+ {
+  "id": "F009",
+  "category_en": "Shipping",
+  "category_jp": "配送",
+  "q_en": "Will I pay customs duties for overseas orders?",
+  "q_jp": "海外注文で関税はかかりますか？",
+  "a_en": "Import duties and taxes depend on your country and are paid by the customer. Please check your local rules before ordering.",
+  "a_jp": "輸入関税・税金は国によって異なり、お客様のご負担となります。ご注文前にお住まいの国の規則をご確認ください。",
+  "sort": 9,
+  "status": "TRUE"
+ },
+ {
+  "id": "F010",
+  "category_en": "Size & fit",
+  "category_jp": "サイズ",
+  "q_en": "How do I know the kimono will fit?",
+  "q_jp": "サイズが合うか分かりません。",
+  "a_en": "Each page lists measurements (mitake, yuki, sodetake, etc.). See our Size guide, or send us your height and we will recommend a suitable kimono.",
+  "a_jp": "各商品ページに寸法（身丈・裄・袖丈など）を記載しています。サイズガイドをご覧いただくか、身長をお知らせいただければ合う着物をご提案します。",
+  "sort": 10,
+  "status": "TRUE"
+ },
+ {
+  "id": "F011",
+  "category_en": "Size & fit",
+  "category_jp": "サイズ",
+  "q_en": "Do you sell obi and accessories?",
+  "q_jp": "帯や小物も販売していますか？",
+  "a_en": "Our shop focuses on kimono. If you need an obi or accessories to match, please contact us and we will advise you.",
+  "a_jp": "当店は着物を中心にご紹介しています。合わせる帯や小物をお探しの場合は、お気軽にご相談ください。",
+  "sort": 11,
+  "status": "TRUE"
+ },
+ {
+  "id": "F012",
+  "category_en": "Care",
+  "category_jp": "お手入れ",
+  "q_en": "How should I care for my kimono?",
+  "q_jp": "お手入れ方法を教えてください。",
+  "a_en": "Silk kimono should be aired after wearing, folded with tatou-shi paper, and stored in a cool, dry place. For stains, please take it to a professional kimono cleaner. Avoid washing silk at home.",
+  "a_jp": "絹の着物は、着用後に陰干しし、たとう紙に包んで風通しのよい冷暗所で保管してください。汚れは専門のクリーニング店へ。ご自宅での水洗いは避けてください。",
+  "sort": 12,
+  "status": "TRUE"
+ },
+ {
+  "id": "F013",
+  "category_en": "Returns",
+  "category_jp": "返品・交換",
+  "q_en": "Can I return a kimono?",
+  "q_jp": "返品はできますか？",
+  "a_en": "Please contact us within 7 days of arrival. Because every kimono is one of a kind, returns for reasons other than damage or an error on our side may not be accepted. The customer pays return shipping unless we made a mistake.",
+  "a_jp": "商品到着後7日以内にご連絡ください。一点ものの性質上、破損・当店の手違い以外の返品はお受けできない場合があります。当店の過失以外の返送料はお客様のご負担です。",
+  "sort": 13,
+  "status": "TRUE"
+ },
+ {
+  "id": "F014",
+  "category_en": "Kimono buyback",
+  "category_jp": "着物買取",
+  "q_en": "Do you buy unworn kimono?",
+  "q_jp": "着ない着物を買い取ってもらえますか？",
+  "a_en": "Yes. Send 3–5 photos through our buyback form and we reply with a free estimate within 2–3 business days. Identity verification is required by Japanese law.",
+  "a_jp": "はい。買取フォームから写真を3〜5枚お送りください。2〜3営業日以内に無料でご査定をご連絡します。法律により、本人確認が必要です。",
+  "sort": 14,
+  "status": "TRUE"
+ },
+ {
+  "id": "F015",
+  "category_en": "Kimono buyback",
+  "category_jp": "着物買取",
+  "q_en": "What if I do not agree with the estimate?",
+  "q_jp": "査定額に納得できない場合は？",
+  "a_en": "You can decline at no cost. If you already shipped the kimono, we return it free of charge.",
+  "a_jp": "お断りいただいても費用はかかりません。すでにお送りいただいた場合も、返送料は当店が負担します。",
+  "sort": 15,
+  "status": "TRUE"
+ }
+]
