@@ -304,11 +304,23 @@
     onLang(() => { drawDaily(); drawQuiz(); drawDrop(); tick(); });
   }
 
+
+  /* ---------- skeleton: kerangka berkilau selama data dimuat ---------- */
+  function skeleton() {
+    const card = '<div class="sk-card"><div class="sk sk-img"></div><div class="sk sk-l"></div><div class="sk sk-l s"></div></div>';
+    const post = '<div class="sk-card"><div class="sk sk-img wide"></div><div class="sk sk-l s"></div><div class="sk sk-l"></div><div class="sk sk-l"></div></div>';
+    const fill = (id, html, n) => { const el = $("#" + id); if (el && !el.children.length) el.innerHTML = html.repeat(n); };
+    fill("featured", card, 4); fill("shopGrid", card, 8); fill("homePosts", post, 3); fill("blogGrid", post, 6);
+    fill("shopFilters", '<span class="sk sk-pill"></span>', 6); fill("galFilters", '<span class="sk sk-pill"></span>', 4);
+    fill("faqList", '<div class="sk sk-bar"></div>', 6); fill("timeline", '<div class="sk sk-bar tall"></div>', 3);
+    const m = (id, n) => { const el = $("#" + id); if (el && !el.children.length) el.innerHTML = [260, 190, 320, 220, 300, 200, 250, 280, 210].slice(0, n).map((h) => `<div class="sk sk-m" style="height:${h}px"></div>`).join(""); };
+    m("homeGal", 6); m("galGrid", 9);
+  }
+
   /* ---------- transisi halaman (loading elegan) + garis progres scroll ---------- */
   function pageFx() {
     const mark = () => document.body.classList.add("ready");
-    if (document.readyState === "complete") mark(); else window.addEventListener("load", mark);
-    setTimeout(mark, 1800);
+    requestAnimationFrame(() => requestAnimationFrame(mark));
     document.addEventListener("click", (e) => {
       const a = e.target.closest && e.target.closest("a[href]");
       if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || a.target === "_blank" || a.hasAttribute("download")) return;
@@ -495,7 +507,7 @@
 
   /* ---------- mulai ---------- */
   document.addEventListener("DOMContentLoaded", async () => {
-    chrome(); pageFx();
+    chrome(); skeleton(); pageFx();
     $("#lbX").onclick = closeLb; $("#lbP").onclick = () => lbStep(-1); $("#lbN").onclick = () => lbStep(1);
     $("#lb").addEventListener("click", (e) => { if (e.target.id === "lb") closeLb(); });
     $("#modal").addEventListener("click", (e) => { if (e.target.id === "modal") closeModal(); });
