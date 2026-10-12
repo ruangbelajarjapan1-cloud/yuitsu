@@ -1,10 +1,10 @@
 [
   {
     "id": "K001",
-    "name_en": "Furisode Abaya · Crimson Crane",
-    "name_jp": "振袖アバヤ 紅に鶴",
-    "desc_en": "An open-front abaya cut from vintage furisode silk: vivid crimson with cranes in gold thread. A statement piece for celebrations.",
-    "desc_jp": "古い振袖の絹から仕立てた、前開きのアバヤ。鮮やかな紅色に金糸の鶴を配した、お祝いの席にふさわしい一着です。",
+    "name_en": "Furisode Abaya · Crimson Chrysanthemum",
+    "name_jp": "振袖アバヤ 紅に菊",
+    "desc_en": "An open-front abaya cut from vintage furisode silk: vivid crimson with chrysanthemums in gold thread. A statement piece for celebrations.",
+    "desc_jp": "古い振袖の絹から仕立てた、前開きのアバヤ。鮮やかな紅色に金糸の菊を配した、お祝いの席にふさわしい一着です。",
     "price": 88000,
     "stock": 1,
     "image_url": "images/products/K001.jpg",
@@ -15,7 +15,10 @@
     "material_en": "Vintage furisode silk",
     "material_jp": "アンティーク振袖の絹",
     "featured": "TRUE",
-    "status": "TRUE"
+    "status": "TRUE",
+    "story_en": "Furisode are the most formal kimono for young unmarried women, known for their long swinging sleeves. We keep the finest panels whole so the main motif flows across the abaya.",
+    "story_jp": "振袖は未婚女性の第一礼装で、長く揺れる袖が特徴です。もっとも美しい柄の部分をそのまま生かし、アバヤの上に柄が流れるように仕立てます。",
+    "before_image": ""
   },
   {
     "id": "K002",
@@ -33,7 +36,10 @@
     "material_en": "Houmongi silk (chirimen)",
     "material_jp": "訪問着の絹（縮緬）",
     "featured": "TRUE",
-    "status": "TRUE"
+    "status": "TRUE",
+    "story_en": "Houmongi are formal 'visiting' kimono whose patterns flow across the seams. We place the pattern so it continues naturally over the front and sleeves.",
+    "story_jp": "訪問着は、縫い目をまたいで柄がつながる格式ある着物です。前身頃から袖へ柄が自然に続くよう配置します。",
+    "before_image": ""
   },
   {
     "id": "K003",
@@ -51,7 +57,10 @@
     "material_en": "Komon silk",
     "material_jp": "小紋の絹",
     "featured": "TRUE",
-    "status": "TRUE"
+    "status": "TRUE",
+    "story_en": "Komon carry a small pattern repeated all over the cloth, and are relaxed everyday kimono. That makes them easy to cut and easy to wear.",
+    "story_jp": "小紋は細かな柄が全体に繰り返される、日常向けの着物です。裁ちやすく、普段にも着やすい生地です。",
+    "before_image": ""
   },
   {
     "id": "K004",
@@ -69,7 +78,10 @@
     "material_en": "Tsumugi silk",
     "material_jp": "紬の絹",
     "featured": "TRUE",
-    "status": "TRUE"
+    "status": "TRUE",
+    "story_en": "Tsumugi is woven from spun silk thread, giving a textured, durable cloth with a natural look. Every length has its own character.",
+    "story_jp": "紬は紡いだ絹糸で織られ、自然な風合いと丈夫さを持つ生地です。一反ごとに表情が異なります。",
+    "before_image": ""
   },
   {
     "id": "K005",
@@ -87,7 +99,10 @@
     "material_en": "Iromuji silk (jimon)",
     "material_jp": "色無地の絹（地紋）",
     "featured": "FALSE",
-    "status": "TRUE"
+    "status": "TRUE",
+    "story_en": "Iromuji are kimono in a single colour with no large pattern. Their quiet colour and woven texture suit a minimal, elegant abaya.",
+    "story_jp": "色無地は一色染めで大きな柄のない着物です。静かな色と織りの質感が、ミニマルで上品なアバヤに合います。",
+    "before_image": ""
   },
   {
     "id": "K006",
@@ -105,7 +120,10 @@
     "material_en": "Haori silk",
     "material_jp": "羽織の絹",
     "featured": "FALSE",
-    "status": "TRUE"
+    "status": "TRUE",
+    "story_en": "A haori is the short jacket worn over a kimono. Its lighter weight and lining make an easy layering abaya.",
+    "story_jp": "羽織は着物の上に重ねる上着です。軽やかな生地と羽裏を生かし、重ね着しやすいアバヤに仕立てます。",
+    "before_image": ""
   },
   {
     "id": "K007",
@@ -123,7 +141,10 @@
     "material_en": "Tomesode silk",
     "material_jp": "留袖の絹",
     "featured": "FALSE",
-    "status": "TRUE"
+    "status": "TRUE",
+    "story_en": "Tomesode is the formal kimono for married women, with patterns only along the hem. We keep that hem pattern as the border of the abaya.",
+    "story_jp": "留袖は既婚女性の礼装で、柄は裾にだけ配されます。その裾模様をアバヤの縁取りとして生かします。",
+    "before_image": ""
   },
   {
     "id": "K008",
@@ -141,6 +162,9 @@
     "material_en": "Cotton yukata",
     "material_jp": "浴衣の木綿",
     "featured": "FALSE",
-    "status": "TRUE"
+    "status": "TRUE",
+    "story_en": "Yukata are unlined cotton kimono made for summer. The cloth is light and breathable, which suits a fresh summer abaya.",
+    "story_jp": "浴衣は夏のための裏地のない綿の着物です。軽く風通しのよい生地で、涼やかなアバヤになります。",
+    "before_image": ""
   }
 ]
