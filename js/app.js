@@ -38,20 +38,20 @@
   /* ---------- data (Google Sheets via Apps Script, atau file JSON lokal) ---------- */
   async function getData(name) {
     const ck = "d_" + name;
-    const cached = sessionStorage.getItem(ck);
-    if (cached) { try { return JSON.parse(cached); } catch (e) {} }
+    try { const c = JSON.parse(sessionStorage.getItem(ck)); if (c && c.t && Date.now() - c.t < 60000) return c.d; } catch (e) {}
     let data = null;
     if (S.API_URL) {
       try {
         const r = await fetch(S.API_URL + "?action=" + name);
         const j = await r.json();
-        if (j && j.ok) data = j.data;
+        // tab Sheet yang masih kosong -> pakai data contoh (kecuali produk: kosong berarti memang tidak ada yang dijual)
+        if (j && j.ok && Array.isArray(j.data) && (j.data.length || name === "products" || name === "pages")) data = j.data;
       } catch (e) { console.warn("API gagal, memakai data lokal:", name); }
     }
     if (!data) {
       try { data = await (await fetch("data/" + name + ".json")).json(); } catch (e) { data = []; }
     }
-    try { sessionStorage.setItem(ck, JSON.stringify(data)); } catch (e) {}
+    if (data && data.length) { try { sessionStorage.setItem(ck, JSON.stringify({ t: Date.now(), d: data })); } catch (e) {} }
     return data;
   }
   const visible = (a) => a.filter((x) => String(x.status || "TRUE").toUpperCase() !== "FALSE" && String(x.status).toLowerCase() !== "hidden");
