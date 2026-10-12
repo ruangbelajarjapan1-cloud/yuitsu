@@ -63,10 +63,10 @@
   }
 
   /* ---------- gambar placeholder (muncul jika foto belum diisi) ---------- */
-  const PAL = [["#F4A7BB", "#FAD3DD"], ["#8DBBE3", "#C3DDF3"], ["#9AD0B1", "#CBE8D8"], ["#F3C47E", "#FAE0B4"], ["#B9A8E4", "#DAD0F3"], ["#EE9A9A", "#F8C6C6"], ["#7FB8CC", "#B8DCE8"], ["#E8B3D3", "#F5D6E8"]];
+  const PAL = [["#C9A08A", "#EBD9CE"], ["#B07C6C", "#E8D1C8"], ["#CBB59F", "#EFE4D8"], ["#A98B80", "#E6D8D2"], ["#C7A58C", "#F0E1D6"], ["#B58F8A", "#EBDAD6"], ["#BFA796", "#EDE3DA"], ["#C2998B", "#EEDCD4"]];
   function ph(seed) {
     let h = 0; String(seed).split("").forEach((c) => (h = (h * 31 + c.charCodeAt(0)) >>> 0));
-    const [a, b] = PAL[h % PAL.length], ink = "#2E4E9A";
+    const [a, b] = PAL[h % PAL.length], ink = "#5E1218";
     const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='520' viewBox='0 0 400 520'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${b}'/><stop offset='1' stop-color='${a}'/></linearGradient><pattern id='p' width='36' height='18' patternUnits='userSpaceOnUse'><g fill='none' stroke='#fff' stroke-opacity='.45' stroke-width='1'><circle cx='18' cy='18' r='17'/><circle cx='18' cy='18' r='11'/><circle cx='0' cy='9' r='17'/><circle cx='0' cy='9' r='11'/><circle cx='36' cy='9' r='17'/><circle cx='36' cy='9' r='11'/></g></pattern></defs><rect width='400' height='520' fill='url(#g)'/><rect width='400' height='520' fill='url(#p)'/><g fill='#fff' fill-opacity='.55' stroke='${ink}' stroke-opacity='.8' stroke-width='1.6' stroke-linejoin='round'><path d='M200 88 L162 100 L108 146 L100 310 L134 310 L140 196 L152 182 L136 446 L264 446 L248 182 L260 196 L266 310 L300 310 L292 146 L238 100 Z'/><path d='M200 100 L200 446' fill='none' stroke-opacity='.6' stroke-dasharray='5 5'/><path d='M178 100 L200 150 L222 100' fill='none' stroke-opacity='.6'/></g><text x='200' y='470' text-anchor='middle' font-family='serif' font-size='15' letter-spacing='9' fill='${ink}' fill-opacity='.8'>YUITSU</text></svg>`;
     return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg).replace(/'/g, "%27").replace(/\(/g, "%28").replace(/\)/g, "%29");
   }
@@ -120,7 +120,7 @@
     Visa: '<text x="26" y="21" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-style="italic" font-size="15" fill="#1A1F71" letter-spacing="-.5">VISA</text>',
     Mastercard: '<circle cx="20" cy="16" r="9" fill="#EB001B"/><circle cx="32" cy="16" r="9" fill="#F79E1B"/><path d="M26 9.3A9 9 0 0 1 26 22.7A9 9 0 0 1 26 9.3Z" fill="#FF5F00"/>',
     JCB: '<rect x="8" y="7" width="11" height="18" rx="3" fill="#0B4EA2"/><rect x="20.5" y="7" width="11" height="18" rx="3" fill="#D5001C"/><rect x="33" y="7" width="11" height="18" rx="3" fill="#00873E"/><g fill="#fff" font-family="Arial,sans-serif" font-weight="800" font-size="10" text-anchor="middle"><text x="13.5" y="20">J</text><text x="26" y="20">C</text><text x="38.5" y="20">B</text></g>',
-    Bank: '<g fill="none" stroke="#2E4E9A" stroke-width="1.6" stroke-linejoin="round"><path d="M26 6 L40 12 H12 Z"/><path d="M15 15v9M21 15v9M31 15v9M37 15v9M11 26h30"/></g>',
+    Bank: '<g fill="none" stroke="#5E1218" stroke-width="1.6" stroke-linejoin="round"><path d="M26 6 L40 12 H12 Z"/><path d="M15 15v9M21 15v9M31 15v9M37 15v9M11 26h30"/></g>',
     COD: '<g fill="none" stroke="#2F8F5B" stroke-width="1.6"><rect x="9" y="9" width="34" height="14" rx="2"/><circle cx="26" cy="16" r="3.4"/><path d="M13 12.5v7M39 12.5v7"/></g>'
   };
   function payLogos(list) {
