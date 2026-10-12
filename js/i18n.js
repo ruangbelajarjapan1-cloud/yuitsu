@@ -241,3 +241,30 @@ Object.assign(window.T, {
 insta_t:{en:"Follow our daily work, new kimono and styling ideas.",jp:"日々の制作、新作の着物、コーディネートをご紹介しています。"},
 insta_btn:{en:"Follow",jp:"フォローする"}
 });
+
+/* ===== v4: abaya dari kain kimono ===== */
+Object.assign(window.T, {
+nav_shop:{en:"Abaya",jp:"アバヤ"},
+hero_eyebrow:{en:"Yuitsu Kimono Abaya · Tsukuba, Japan",jp:"YUITSU 着物アバヤ · 茨城県つくば"},
+hero_text:{en:"Abaya made from vintage and traditional kimono fabric. One of a kind, modest and elegant, cut and sewn with care.",jp:"アンティークや伝統の着物地から仕立てた、一点もののアバヤ。控えめで上品、一着ずつ丁寧に裁ち、縫い上げています。"},
+hero_cta:{en:"View the abayas",jp:"アバヤを見る"},
+home_featured:{en:"Featured abayas",jp:"注目のアバヤ"},
+home_featured_sub:{en:"Each abaya is cut from a different kimono, so every piece is one of a kind.",jp:"一着ごとに異なる着物地から仕立てるため、すべて一点ものです。"},
+home_quote:{en:"“Japanese heritage, worn with modest elegance.”",jp:"「日本の伝統を、凛とした上品さで纏う。」"},
+home_story_h:{en:"Kimono fabric, reborn as abaya",jp:"着物の布が、アバヤに"},
+home_story_t:{en:"Yuitsu brings together traditional Japanese kimono fabric and the modest elegance of the abaya. Each kimono is carefully selected, unpicked and reborn as a modern, wearable piece. No two are alike.",jp:"YUITSUは、日本の伝統的な着物地と、アバヤの持つ上品な佇まいを組み合わせています。一枚の着物を丁寧に選び、ほどき、現代の装いとして仕立て直します。同じものは二つとありません。"},
+home_kaitori_t:{en:"We purchase kimono with care and, whenever possible, reborn them as our abayas. Free online estimate.",jp:"着物を丁寧に拝見し、買取いたします。お預かりした着物は、可能な限りアバヤとして生まれ変わらせます。オンライン査定は無料です。"},
+kai_lead:{en:"Kimono that are no longer worn, inherited, or stored away: we look at each one carefully and purchase it at a fair price. Many of them are reborn as our abayas.",jp:"着る機会のなくなった着物、譲り受けたまま眠っている着物。一枚ずつ丁寧に拝見し、適正な価格で買取いたします。お預かりした着物の多くは、当店のアバヤとして生まれ変わります。"},
+types_h:{en:"Shop by kimono fabric",jp:"元の着物の種類から選ぶ"},
+types_sub:{en:"The kimono each abaya is made from.",jp:"アバヤの元になった着物の種類です。"},
+shop_h:{en:"Kimono abaya",jp:"着物アバヤ"},
+shop_sub:{en:"Every abaya is one of a kind and made from kimono fabric. Measurements are listed for each piece. Shipping within Japan and overseas.",jp:"すべて着物地から仕立てた一点もののアバヤです。各商品に寸法を記載しています。国内・海外へお届けします。"},
+gal_sub:{en:"Our abayas and the kimono fabrics behind them.",jp:"アバヤと、その元になった着物地をご覧ください。"},
+trust_2_t:{en:"No two abayas alike",jp:"同じものは二つとありません"},
+size_sub:{en:"How to read abaya measurements and choose your size.",jp:"アバヤの寸法の見方と、サイズの選び方。"},
+size_intro:{en:"Our abayas are cut from kimono fabric, so each one is slightly different. Compare the measurements on each product page with your own body or a favorite garment. All values are in centimeters and may differ by 1–2 cm.",jp:"当店のアバヤは着物地から仕立てるため、一着ずつ寸法が少しずつ異なります。各商品ページの寸法を、ご自身の体型やお手持ちの服と比べてお選びください。単位はcmで、1〜2cm程度の誤差が生じる場合があります。"}
+});
+Object.assign(window.T, {
+announce:{en:"Free shipping in Japan over ¥15,000  ·  Worldwide shipping  ·  Every abaya is one of a kind",jp:"国内送料 15,000円以上で無料　·　海外発送可　·　すべて一点もの"},
+in_stock:{en:"Stock",jp:"在庫"}
+});
