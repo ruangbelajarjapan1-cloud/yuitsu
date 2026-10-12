@@ -86,7 +86,7 @@
       <a class="logo" href="index.html"><img class="logo-img" src="images/logo.png" alt="" onload="this.parentNode.classList.add('has-img')" onerror="this.remove()"><span data-brand></span><small>${esc(S.TAGLINE_EN || "")}</small></a>
       <nav class="main" id="nav">${links}</nav>
       <div class="tools"><div class="lang"><button data-l="en">EN</button><button data-l="jp">日本語</button></div>
-      <button class="cart-btn" id="cartBtn" aria-label="cart">🛍<b id="cartN">0</b></button><button class="burger" id="burger" aria-label="menu">☰</button></div></div></header>`;
+      <button class="cart-btn" id="cartBtn" aria-label="cart"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 8.5h13l-1 11.5h-11z"/><path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"/></svg><b id="cartN">0</b></button><button class="burger" id="burger" aria-label="menu"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></header>`;
     $("#ftr").innerHTML = `<footer class="site"><div class="wrap"><div class="cols">
       <div><h4 data-brand></h4><p>${esc(S.EMAIL)}</p><p data-i18n="address_text"></p><p data-i18n="hours"></p><div class="chips paylogos" style="justify-content:flex-start;margin-top:12px"></div></div>
       <div><h4 data-i18n="f_explore"></h4><a href="shop.html" data-i18n="nav_shop"></a><a href="brand.html" data-i18n="nav_brand"></a><a href="philosophy.html" data-i18n="nav_philosophy"></a><a href="gallery.html" data-i18n="nav_gallery"></a></div>
