@@ -1,83 +1,83 @@
 [
- {
-  "id": "G001",
-  "image_url": "",
-  "caption_en": "Furisode abaya with gold cranes",
-  "caption_jp": "金鶴の振袖アバヤ",
-  "category_en": "Abaya",
-  "category_jp": "アバヤ",
-  "status": "TRUE"
- },
- {
-  "id": "G002",
-  "image_url": "",
-  "caption_en": "Checking the kimono silk",
-  "caption_jp": "着物地の状態を確かめる",
-  "category_en": "Atelier",
-  "category_jp": "アトリエ",
-  "status": "TRUE"
- },
- {
-  "id": "G003",
-  "image_url": "",
-  "caption_en": "Houmongi abaya, plum blossoms",
-  "caption_jp": "梅の訪問着アバヤ",
-  "category_en": "Abaya",
-  "category_jp": "アバヤ",
-  "status": "TRUE"
- },
- {
-  "id": "G004",
-  "image_url": "",
-  "caption_en": "Gold thread close-up",
-  "caption_jp": "金糸のアップ",
-  "category_en": "Fabric",
-  "category_jp": "生地",
-  "status": "TRUE"
- },
- {
-  "id": "G005",
-  "image_url": "",
-  "caption_en": "Komon abaya, indigo waves",
-  "caption_jp": "藍の波の小紋アバヤ",
-  "category_en": "Abaya",
-  "category_jp": "アバヤ",
-  "status": "TRUE"
- },
- {
-  "id": "G006",
-  "image_url": "",
-  "caption_en": "Tsumugi weave",
-  "caption_jp": "紬の織り目",
-  "category_en": "Fabric",
-  "category_jp": "生地",
-  "status": "TRUE"
- },
- {
-  "id": "G007",
-  "image_url": "",
-  "caption_en": "Haori abaya, sakura",
-  "caption_jp": "桜の羽織アバヤ",
-  "category_en": "Abaya",
-  "category_jp": "アバヤ",
-  "status": "TRUE"
- },
- {
-  "id": "G008",
-  "image_url": "",
-  "caption_en": "Unpicking a kimono",
-  "caption_jp": "着物をほどく",
-  "category_en": "Atelier",
-  "category_jp": "アトリエ",
-  "status": "TRUE"
- },
- {
-  "id": "G009",
-  "image_url": "",
-  "caption_en": "Tomesode abaya, pine & crane",
-  "caption_jp": "松と鶴の留袖アバヤ",
-  "category_en": "Abaya",
-  "category_jp": "アバヤ",
-  "status": "TRUE"
- }
+  {
+    "id": "G001",
+    "image_url": "images/products/K001.jpg",
+    "caption_en": "Furisode abaya with gold cranes",
+    "caption_jp": "金鶴の振袖アバヤ",
+    "category_en": "Abaya",
+    "category_jp": "アバヤ",
+    "status": "TRUE"
+  },
+  {
+    "id": "G002",
+    "image_url": "images/craft-1.jpg",
+    "caption_en": "Checking the kimono silk",
+    "caption_jp": "着物地の状態を確かめる",
+    "category_en": "Atelier",
+    "category_jp": "アトリエ",
+    "status": "TRUE"
+  },
+  {
+    "id": "G003",
+    "image_url": "images/products/K003.jpg",
+    "caption_en": "Houmongi abaya, plum blossoms",
+    "caption_jp": "梅の訪問着アバヤ",
+    "category_en": "Abaya",
+    "category_jp": "アバヤ",
+    "status": "TRUE"
+  },
+  {
+    "id": "G004",
+    "image_url": "images/products/K002.jpg",
+    "caption_en": "Gold thread close-up",
+    "caption_jp": "金糸のアップ",
+    "category_en": "Fabric",
+    "category_jp": "生地",
+    "status": "TRUE"
+  },
+  {
+    "id": "G005",
+    "image_url": "images/material-1.jpg",
+    "caption_en": "Komon abaya, indigo waves",
+    "caption_jp": "藍の波の小紋アバヤ",
+    "category_en": "Abaya",
+    "category_jp": "アバヤ",
+    "status": "TRUE"
+  },
+  {
+    "id": "G006",
+    "image_url": "images/products/K007.jpg",
+    "caption_en": "Tsumugi weave",
+    "caption_jp": "紬の織り目",
+    "category_en": "Fabric",
+    "category_jp": "生地",
+    "status": "TRUE"
+  },
+  {
+    "id": "G007",
+    "image_url": "images/products/K006.jpg",
+    "caption_en": "Haori abaya, sakura",
+    "caption_jp": "桜の羽織アバヤ",
+    "category_en": "Abaya",
+    "category_jp": "アバヤ",
+    "status": "TRUE"
+  },
+  {
+    "id": "G008",
+    "image_url": "images/craft-2.jpg",
+    "caption_en": "Unpicking a kimono",
+    "caption_jp": "着物をほどく",
+    "category_en": "Atelier",
+    "category_jp": "アトリエ",
+    "status": "TRUE"
+  },
+  {
+    "id": "G009",
+    "image_url": "images/products/K005.jpg",
+    "caption_en": "Tomesode abaya, pine & crane",
+    "caption_jp": "松と鶴の留袖アバヤ",
+    "category_en": "Abaya",
+    "category_jp": "アバヤ",
+    "status": "TRUE"
+  }
 ]
