@@ -283,3 +283,29 @@ pil_3_t:{en:"Upcycling vintage kimono into wearable art, so beautiful cloth is n
 phil_h:{en:"Our philosophy",jp:"ものづくりの想い"},
 phil_sub:{en:"Celebrating the elegance of Japanese culture, one kimono at a time.",jp:"日本文化の美しさを、一枚の着物から。"}
 });
+
+/* ---- v6: cerita kain, ulasan, custom abaya, tombol atas ---- */
+Object.assign(window.T,{
+nav_custom:{en:"Custom abaya",jp:"オーダーメイド"},
+story_h:{en:"About this kimono",jp:"この着物について"},
+rv_h:{en:"Worn around the world",jp:"世界で着られています"},
+rv_share:{en:"Share your photo with us",jp:"着用写真を送る"},
+cu_eyebrow:{en:"Custom",jp:"オーダー"},
+cu_h:{en:"Your family kimono, made into your abaya",jp:"ご家族の着物を、あなたのアバヤに"},
+cu_banner:{en:"Have a kimono that is no longer worn? Send us photos and we will tell you how it can become an abaya made only for you.",jp:"着る機会のなくなった着物はありませんか？写真をお送りください。あなただけのアバヤに仕立て直す方法をご提案します。"},
+cu_cta:{en:"Start a custom order",jp:"オーダーを相談する"},
+cu_page_sub:{en:"Turn a treasured kimono into an abaya you will actually wear.",jp:"思い出の着物を、実際に着られるアバヤへ。"},
+cu_lead:{en:"Many families keep a kimono that is too beautiful to throw away and too precious to wear as it is. We can unpick it and make it into an abaya made for you, keeping the motifs you love in the places that show them best.",jp:"美しくて手放せない、でもそのままでは着られない。そんな着物を丁寧にほどき、あなたのためのアバヤに仕立てます。大切にしたい柄が一番映える位置を選んで仕立てます。"},
+cu_s1_h:{en:"1. Send photos",jp:"1. 写真を送る"},
+cu_s1_t:{en:"Photos of the whole kimono and the pattern. Tell us your height and how you want to wear it.",jp:"着物全体と柄の写真、身長や着こなしのご希望をお送りください。"},
+cu_s2_h:{en:"2. Quote and plan",jp:"2. お見積りとご提案"},
+cu_s2_t:{en:"We check the fabric and reply with a plan and price, usually within a few days.",jp:"生地の状態を確認し、仕立てのプランとお見積りをお返事します。"},
+cu_s3_h:{en:"3. Send the kimono",jp:"3. 着物をお送りいただく"},
+cu_s3_t:{en:"After you agree, send us the kimono. Your fabric is handled with care.",jp:"ご納得いただいたら、着物をお送りください。大切にお預かりします。"},
+cu_s4_h:{en:"4. Made and delivered",jp:"4. 仕立てとお届け"},
+cu_s4_t:{en:"Cut, sewn and finished by hand, then delivered to you in Japan or overseas.",jp:"裁断から仕上げまで手仕事で仕立て、国内外へお届けします。"},
+cu_form_h:{en:"Tell us about your kimono",jp:"ご相談フォーム"},
+cu_items:{en:"What kimono do you have? (type, colour, size)",jp:"お持ちの着物（種類・色・サイズなど）"},
+cu_notes:{en:"Your wishes: length, sleeves, where to show the pattern",jp:"ご希望（丈・袖・柄の出し方など）"},
+top_t:{en:"Back to top",jp:"ページの先頭へ"}
+});
