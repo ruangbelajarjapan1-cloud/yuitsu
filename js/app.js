@@ -90,7 +90,7 @@
     $("#ftr").innerHTML = `<footer class="site"><div class="wrap"><div class="cols">
       <div><h4 data-brand></h4><p>${esc(S.EMAIL)}</p><p data-i18n="address_text"></p><p data-i18n="hours"></p><div class="chips paylogos" style="justify-content:flex-start;margin-top:12px"></div></div>
       <div><h4 data-i18n="f_explore"></h4><a href="shop.html" data-i18n="nav_shop"></a><a href="brand.html" data-i18n="nav_brand"></a><a href="philosophy.html" data-i18n="nav_philosophy"></a><a href="gallery.html" data-i18n="nav_gallery"></a></div>
-      <div><h4 data-i18n="f_help"></h4><a href="kaitori.html" data-i18n="nav_kaitori"></a><a href="faq.html" data-i18n="nav_faq"></a><a href="size-guide.html" data-i18n="nav_size"></a><a href="blog.html" data-i18n="nav_blog"></a><a href="contact.html" data-i18n="nav_contact"></a></div>
+      <div><h4 data-i18n="f_help"></h4><a href="kaitori.html" data-i18n="nav_kaitori"></a><a href="custom.html" data-i18n="nav_custom"></a><a href="faq.html" data-i18n="nav_faq"></a><a href="size-guide.html" data-i18n="nav_size"></a><a href="blog.html" data-i18n="nav_blog"></a><a href="contact.html" data-i18n="nav_contact"></a></div>
       <div><h4 data-i18n="f_follow"></h4><div class="social">${socialLinks()}</div><a href="legal.html" data-i18n="f_legal" style="margin-top:10px"></a></div>
       </div><div class="copy">© ${new Date().getFullYear()} <span data-brand></span> KIMONO. <span data-i18n="rights"></span></div></div></footer>
       ${S.LINE_URL ? `<a class="line-fab" href="${esc(S.LINE_URL)}" target="_blank" rel="noopener" data-i18n="line_btn"></a>` : ""}`;
@@ -214,7 +214,7 @@
     let q = 1;
     const box = $("#modalBox");
     box.innerHTML = `<button class="x" id="mx">×</button><div><div class="ph" style="aspect-ratio:4/5"><img id="mImg" src="${esc(imgs[0])}" style="width:100%;height:100%;object-fit:cover" alt=""></div>${imgs.length > 1 ? `<div class="thumbs">${imgs.map((s, i) => `<img src="${esc(s)}" class="${i ? "" : "on"}" data-i="${i}" alt="">`).join("")}</div>` : ""}</div>
-      <div class="info"><span class="eyebrow">${esc(L(p, "category"))}</span><h2>${esc(L(p, "name"))}</h2><span class="price">${yen(p.price)}</span><p>${esc(L(p, "desc"))}</p><table class="spec">${p.size ? `<tr><td>${t("size")}</td><td>${esc(p.size)}</td></tr>` : ""}${p.material_en ? `<tr><td>${t("material")}</td><td>${esc(L(p, "material"))}</td></tr>` : ""}<tr><td>${t("in_stock")}</td><td>${stock > 0 ? stock : t("sold_out")}</td></tr></table><div class="paylogos" style="margin-top:18px">${payLogos(["PayPal", "Visa", "Mastercard", "JCB", "Bank"])}</div><p class="note" style="margin-top:10px"><a href="size-guide.html" style="text-decoration:underline">${t("shop_sizelink")}</a></p>
+      <div class="info"><span class="eyebrow">${esc(L(p, "category"))}</span><h2>${esc(L(p, "name"))}</h2><span class="price">${yen(p.price)}</span><p>${esc(L(p, "desc"))}</p><table class="spec">${p.size ? `<tr><td>${t("size")}</td><td>${esc(p.size)}</td></tr>` : ""}${p.material_en ? `<tr><td>${t("material")}</td><td>${esc(L(p, "material"))}</td></tr>` : ""}<tr><td>${t("in_stock")}</td><td>${stock > 0 ? stock : t("sold_out")}</td></tr></table>${L(p, "story") ? `<div class="story"><h4>${t("story_h")}</h4>${p.before_image ? `<img src="${esc(drive(p.before_image))}" alt="">` : ""}<p>${esc(L(p, "story"))}</p></div>` : ""}<div class="paylogos" style="margin-top:18px">${payLogos(["PayPal", "Visa", "Mastercard", "JCB", "Bank"])}</div><p class="note" style="margin-top:10px"><a href="size-guide.html" style="text-decoration:underline">${t("shop_sizelink")}</a></p>
       <div style="margin-top:22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap">${stock > 1 ? `<div class="qty"><button id="qm">−</button><span id="qn">1</span><button id="qp">+</button></div>` : ""}<button class="btn solid" id="addB" ${stock <= 0 ? "disabled" : ""}>${stock <= 0 ? t("sold_out") : t("add_cart")}</button></div></div>`;
     $("#modal").classList.add("open");
     $("#mx").onclick = closeModal;
@@ -305,6 +305,33 @@
   }
 
 
+
+  /* ---------- ulasan pelanggan (tab Reviews) + banner custom ---------- */
+  async function homeSocial() {
+    const quiz = $("#quiz"); if (!quiz || $("#reviews")) return;
+    quiz.insertAdjacentHTML("afterend", '<section id="custom"><div class="wrap"><div class="custombar rv in"><div><span class="eyebrow" id="cuE"></span><h2 id="cuH"></h2><p id="cuT"></p></div><a class="btn solid" href="custom.html" id="cuB"></a></div></div></section>');
+    const dc = () => { $("#cuE").textContent = t("cu_eyebrow"); $("#cuH").textContent = t("cu_h"); $("#cuT").textContent = t("cu_banner"); $("#cuB").textContent = t("cu_cta"); };
+    dc(); onLang(dc);
+    const rows = visible(await getData("reviews")).filter((r) => L(r, "text"));
+    if (!rows.length) return;
+    $("#custom").insertAdjacentHTML("afterend", '<section class="alt" id="reviews"><div class="wrap"><div class="sec-head"><span class="eyebrow">Reviews</span><h2 id="rvH"></h2><div class="rule"></div></div><div class="grid g3" id="rvList"></div><p class="center" style="margin-top:26px"><a class="btn dark" id="rvB"></a></p></div></section>');
+    const dr = () => {
+      $("#rvH").textContent = t("rv_h");
+      const mail = "mailto:" + S.EMAIL + "?subject=" + encodeURIComponent("YUITSU photo");
+      $("#rvB").textContent = t("rv_share"); $("#rvB").href = mail;
+      $("#rvList").innerHTML = rows.slice(0, 6).map((r) => `<figure class="rvc">${r.image_url ? `<div class="rvi" style="background-image:url('${esc(pic(r.image_url, r.id))}')"></div>` : ""}<blockquote>${esc(L(r, "text"))}</blockquote><figcaption><b>${esc(r.name || "")}</b>${L(r, "country") ? " · " + esc(L(r, "country")) : ""}</figcaption></figure>`).join("");
+    };
+    dr(); onLang(dr);
+  }
+  function backTop() {
+    const b = document.createElement("button"); b.id = "toTop"; b.type = "button"; b.setAttribute("aria-label", "Back to top");
+    b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5"/></svg><span>TOP</span>';
+    document.body.appendChild(b);
+    b.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+    const f = () => b.classList.toggle("show", window.scrollY > 600);
+    window.addEventListener("scroll", f, { passive: true }); f();
+  }
+
   /* ---------- skeleton: kerangka berkilau selama data dimuat ---------- */
   function skeleton() {
     const card = '<div class="sk-card"><div class="sk sk-img"></div><div class="sk sk-l"></div><div class="sk sk-l s"></div></div>';
@@ -319,8 +346,9 @@
 
   /* ---------- transisi halaman (loading elegan) + garis progres scroll ---------- */
   function pageFx() {
+    try { if (sessionStorage.getItem("ld")) document.body.classList.add("quick"); else sessionStorage.setItem("ld", "1"); } catch (e) {}
     const mark = () => document.body.classList.add("ready");
-    requestAnimationFrame(() => requestAnimationFrame(mark));
+    setTimeout(mark, 60);
     document.addEventListener("click", (e) => {
       const a = e.target.closest && e.target.closest("a[href]");
       if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || a.target === "_blank" || a.hasAttribute("download")) return;
@@ -352,7 +380,7 @@
         bindPosts(visible(posts));
       };
       draw(); onLang(draw);
-      homeExtras(prods);
+      homeExtras(prods); homeSocial();
       instaSection(gal); onLang(() => instaSection(gal));
     },
     async brand() {
@@ -404,6 +432,7 @@
       try { const ld = document.createElement("script"); ld.type = "application/ld+json"; ld.text = JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: rows.map((r) => ({ "@type": "Question", name: r.q_en, acceptedAnswer: { "@type": "Answer", text: r.a_en } })) }); document.head.appendChild(ld); } catch (e) {}
     },
     kaitori() { initKaitori(); },
+    custom() { initKaitori(); },
     contact() { initContact(); },
     checkout() { initCheckout(); },
     legal() { }
@@ -507,10 +536,11 @@
 
   /* ---------- mulai ---------- */
   document.addEventListener("DOMContentLoaded", async () => {
-    chrome(); skeleton(); pageFx();
+    chrome(); skeleton(); pageFx(); backTop();
     $("#lbX").onclick = closeLb; $("#lbP").onclick = () => lbStep(-1); $("#lbN").onclick = () => lbStep(1);
     $("#lb").addEventListener("click", (e) => { if (e.target.id === "lb") closeLb(); });
     $("#modal").addEventListener("click", (e) => { if (e.target.id === "modal") closeModal(); });
+    applyI18n(); renderCart(); fillImgs();
     await loadOverrides();
     document.documentElement.lang = lang === "jp" ? "ja" : "en";
     $$(".lang button").forEach((b) => b.classList.toggle("on", b.dataset.l === lang));
