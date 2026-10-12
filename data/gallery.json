@@ -2,28 +2,28 @@
  {
   "id": "G001",
   "image_url": "",
-  "caption_en": "Furisode with gold cranes",
-  "caption_jp": "金鶴の振袖",
-  "category_en": "Kimono",
-  "category_jp": "着物",
+  "caption_en": "Furisode abaya with gold cranes",
+  "caption_jp": "金鶴の振袖アバヤ",
+  "category_en": "Abaya",
+  "category_jp": "アバヤ",
   "status": "TRUE"
  },
  {
   "id": "G002",
   "image_url": "",
-  "caption_en": "Hand-checking the silk",
-  "caption_jp": "絹の状態を確かめる",
-  "category_en": "Details",
-  "category_jp": "ディテール",
+  "caption_en": "Checking the kimono silk",
+  "caption_jp": "着物地の状態を確かめる",
+  "category_en": "Atelier",
+  "category_jp": "アトリエ",
   "status": "TRUE"
  },
  {
   "id": "G003",
   "image_url": "",
-  "caption_en": "Houmongi plum blossoms",
-  "caption_jp": "梅の訪問着",
-  "category_en": "Kimono",
-  "category_jp": "着物",
+  "caption_en": "Houmongi abaya, plum blossoms",
+  "caption_jp": "梅の訪問着アバヤ",
+  "category_en": "Abaya",
+  "category_jp": "アバヤ",
   "status": "TRUE"
  },
  {
@@ -31,17 +31,17 @@
   "image_url": "",
   "caption_en": "Gold thread close-up",
   "caption_jp": "金糸のアップ",
-  "category_en": "Details",
-  "category_jp": "ディテール",
+  "category_en": "Fabric",
+  "category_jp": "生地",
   "status": "TRUE"
  },
  {
   "id": "G005",
   "image_url": "",
-  "caption_en": "Komon indigo waves",
-  "caption_jp": "藍の波の小紋",
-  "category_en": "Kimono",
-  "category_jp": "着物",
+  "caption_en": "Komon abaya, indigo waves",
+  "caption_jp": "藍の波の小紋アバヤ",
+  "category_en": "Abaya",
+  "category_jp": "アバヤ",
   "status": "TRUE"
  },
  {
@@ -49,24 +49,24 @@
   "image_url": "",
   "caption_en": "Tsumugi weave",
   "caption_jp": "紬の織り目",
-  "category_en": "Details",
-  "category_jp": "ディテール",
+  "category_en": "Fabric",
+  "category_jp": "生地",
   "status": "TRUE"
  },
  {
   "id": "G007",
   "image_url": "",
-  "caption_en": "Haori sakura",
-  "caption_jp": "桜の羽織",
-  "category_en": "Kimono",
-  "category_jp": "着物",
+  "caption_en": "Haori abaya, sakura",
+  "caption_jp": "桜の羽織アバヤ",
+  "category_en": "Abaya",
+  "category_jp": "アバヤ",
   "status": "TRUE"
  },
  {
   "id": "G008",
   "image_url": "",
-  "caption_en": "Preparing for shipment",
-  "caption_jp": "発送の準備",
+  "caption_en": "Unpicking a kimono",
+  "caption_jp": "着物をほどく",
   "category_en": "Atelier",
   "category_jp": "アトリエ",
   "status": "TRUE"
@@ -74,10 +74,10 @@
  {
   "id": "G009",
   "image_url": "",
-  "caption_en": "Tomesode pine & crane",
-  "caption_jp": "松と鶴の留袖",
-  "category_en": "Kimono",
-  "category_jp": "着物",
+  "caption_en": "Tomesode abaya, pine & crane",
+  "caption_jp": "松と鶴の留袖アバヤ",
+  "category_en": "Abaya",
+  "category_jp": "アバヤ",
   "status": "TRUE"
  }
 ]
