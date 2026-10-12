@@ -223,6 +223,106 @@
     $("#addB").onclick = () => { closeModal(); addToCart(p, q); };
   }
 
+
+  /* ---------- ide agar pengunjung kembali: pilihan hari ini, motif hari ini, kuis, hitung mundur ---------- */
+  const MOTIFS = [
+    ["青海波", "Seigaiha", "Endless waves. A wish for lasting peace and good fortune.", "どこまでも続く波。穏やかな暮らしと幸運が続くようにという願い。"],
+    ["麻の葉", "Asanoha", "Hemp leaf. Hemp grows straight and strong, so it stands for healthy growth and protection.", "麻の葉。まっすぐ丈夫に育つ麻にちなみ、健やかな成長と魔除けの意味があります。"],
+    ["菊", "Kiku", "Chrysanthemum. A symbol of long life, dignity and nobility.", "菊。長寿と気品、高貴さの象徴です。"],
+    ["梅", "Ume", "Plum blossom. It blooms in the cold of winter, a sign of perseverance and hope.", "梅。寒さの中で咲くことから、忍耐と希望を表します。"],
+    ["桜", "Sakura", "Cherry blossom. Beauty that is brief, a reminder to treasure the moment.", "桜。儚く咲くからこそ美しい。今この瞬間を大切にする心を表します。"],
+    ["鶴", "Tsuru", "Crane. Said to live a thousand years, it brings long life and happiness.", "鶴。千年生きるといわれ、長寿と幸福を運びます。"],
+    ["松", "Matsu", "Pine. Green through every season, a symbol of steadfastness and vitality.", "松。一年中緑を保つことから、変わらぬ強さと生命力を表します。"],
+    ["七宝", "Shippo", "Seven treasures. Interlocking circles that stand for harmony and good connections.", "七宝。円がつながる模様で、円満なご縁と調和を表します。"],
+    ["唐草", "Karakusa", "Arabesque vines. Vines keep spreading, so they mean prosperity and long-lasting family.", "唐草。つるが伸び続けることから、繁栄と長く続く家運を表します。"],
+    ["亀甲", "Kikko", "Tortoiseshell hexagons. The tortoise lives long, so the pattern means longevity.", "亀甲。長寿の亀にちなみ、長生きと幸運を願う模様です。"]
+  ];
+  const QUIZ = [
+    { q: ["Where will you wear it?", "どんな場面で着ますか？"], a: [
+      [["Celebrations and formal events", "お祝い・フォーマルな場"], { Furisode: 2, Houmongi: 2, Tomesode: 2 }],
+      [["Every day, around town", "普段の街歩き"], { Komon: 2, Tsumugi: 2, Iromuji: 2 }],
+      [["Layered over my outfit", "コーデの羽織りとして"], { Haori: 3, Yukata: 1 }]] },
+    { q: ["Which mood is you?", "あなたの雰囲気は？"], a: [
+      [["Bold and vivid", "華やか・鮮やか"], { Furisode: 2, Yukata: 1, Komon: 1 }],
+      [["Soft and gentle", "やさしい・やわらか"], { Houmongi: 2, Haori: 1, Komon: 1 }],
+      [["Calm and minimal", "静か・ミニマル"], { Iromuji: 2, Tsumugi: 1, Tomesode: 2 }]] },
+    { q: ["Your favourite season?", "好きな季節は？"], a: [
+      [["Spring", "春"], { Houmongi: 1, Haori: 1, Komon: 1 }],
+      [["Summer", "夏"], { Yukata: 3, Haori: 1 }],
+      [["Autumn", "秋"], { Tsumugi: 1, Komon: 1, Furisode: 1 }],
+      [["Winter", "冬"], { Tomesode: 1, Iromuji: 1, Houmongi: 1 }]] }
+  ];
+  const QRES = {
+    Furisode: ["Furisode abaya: bold, celebratory, a true statement piece.", "振袖アバヤ：華やかで、特別な日にふさわしい主役の一着。"],
+    Houmongi: ["Houmongi abaya: graceful, flowing patterns for elegant occasions.", "訪問着アバヤ：流れるような柄が上品な、華やぎのある一着。"],
+    Tomesode: ["Tomesode abaya: deep, formal and quietly luxurious.", "留袖アバヤ：深みがあり、格調高く静かに贅沢な一着。"],
+    Iromuji: ["Iromuji abaya: one soft colour, the purest minimal elegance.", "色無地アバヤ：一色の柔らかな美しさ。究極のミニマルな上品さ。"],
+    Komon: ["Komon abaya: all-over small patterns, easy to wear every day.", "小紋アバヤ：細かな柄が全体に広がる、日常使いしやすい一着。"],
+    Tsumugi: ["Tsumugi abaya: natural, textured and relaxed.", "紬アバヤ：自然な風合いと、くつろいだ上質感。"],
+    Haori: ["Haori abaya: light and easy to layer over any outfit.", "羽織アバヤ：軽やかで、どんな装いにも重ねやすい一着。"],
+    Yukata: ["Yukata abaya: fresh, airy cotton for warm days.", "浴衣アバヤ：暑い日にも涼やかな、さわやかな一着。"]
+  };
+  function homeExtras(prods) {
+    const trust = $(".trust"), featSec = $("#featured") && $("#featured").closest("section");
+    if (!trust || !featSec || $("#daily")) return;
+    const tt = (a) => (lang === "jp" ? a[1] : a[0]);
+    const day = Math.floor(Date.now() / 864e5), now = new Date();
+    trust.insertAdjacentHTML("afterend", '<section id="daily" style="padding:56px 0 20px"><div class="wrap"><div class="daily"></div></div></section>');
+    featSec.insertAdjacentHTML("afterend", '<section class="alt" id="quiz"><div class="wrap"><div class="sec-head"><span class="eyebrow">Find your abaya</span><h2 id="qH"></h2><div class="rule"></div></div><div class="quiz" id="qBox"></div></div></section>');
+    const dropRaw = (DICT.next_drop_date && DICT.next_drop_date.en || "").trim(), dropTs = dropRaw ? new Date(dropRaw + "T10:00:00+09:00").getTime() : 0;
+    if (dropTs > Date.now()) featSec.insertAdjacentHTML("beforebegin", '<section id="drop" style="padding:46px 0 0"><div class="wrap"><div class="drop"><span class="eyebrow" id="dTt"></span><div class="cd" id="dCd"></div><p id="dTx"></p><a class="btn solid" href="#newsletter" id="dBt"></a></div></div></section>');
+    const drawDaily = () => {
+      const ps = visible(prods).filter((p) => p.stock === undefined || p.stock === "" || Number(p.stock) > 0), p = ps.length ? ps[day % ps.length] : null;
+      const m = MOTIFS[day % MOTIFS.length];
+      const dt = now.toLocaleDateString(lang === "jp" ? "ja-JP" : "en-GB", { year: "numeric", month: "long", day: "numeric" });
+      $(".daily").innerHTML =
+        (p ? `<div class="dpick rv in"><div class="dimg" style="background-image:url('${esc(pic(p.image_url, p.id))}')"></div><div class="dtx"><span class="eyebrow">${tt(["Today's pick", "今日の一着"])} · ${esc(dt)}</span><h3>${esc(L(p, "name"))}</h3><p>${esc(L(p, "desc")).slice(0, 120)}…</p><b>${yen(p.price)}</b><button class="btn solid" id="dGo">${tt(["View this piece", "この一着を見る"])}</button></div></div>` : "") +
+        `<div class="dmotif rv in"><span class="eyebrow">${tt(["Pattern of the day", "今日の柄のものがたり"])}</span><div class="mk">${m[0]}</div><h3>${m[1]}</h3><p>${esc(tt([m[2], m[3]]))}</p><a href="shop.html" class="lnk">${tt(["Find it in our abayas →", "アバヤを見る →"])}</a></div>`;
+      if (p) $("#dGo").onclick = () => productModal(p);
+    };
+    let qa = []; // jawaban
+    const drawQuiz = () => {
+      $("#qH").textContent = tt(["Which kimono abaya suits you?", "あなたに合うアバヤは？"]);
+      const i = qa.length, box = $("#qBox");
+      if (i >= QUIZ.length) {
+        const sc = {}; qa.forEach((o) => Object.entries(o).forEach(([k, v]) => (sc[k] = (sc[k] || 0) + v)));
+        const best = Object.entries(sc).sort((a, b) => b[1] - a[1])[0][0];
+        box.innerHTML = `<div class="qres"><div class="mk">${({ Furisode: "振袖", Houmongi: "訪問着", Tomesode: "留袖", Iromuji: "色無地", Komon: "小紋", Tsumugi: "紬", Haori: "羽織", Yukata: "浴衣" })[best]}</div><p>${esc(tt(QRES[best]))}</p><a class="btn solid" href="shop.html?c=${best}">${tt(["See " + best + " abayas", best + "のアバヤを見る"])}</a> <button class="btn dark" id="qRe">${tt(["Try again", "もう一度"])}</button></div>`;
+        $("#qRe").onclick = () => { qa = []; drawQuiz(); }; return;
+      }
+      const Q = QUIZ[i];
+      box.innerHTML = `<div class="qstep">${i + 1} / ${QUIZ.length}</div><h3>${esc(tt(Q.q))}</h3><div class="qopts">${Q.a.map((a, k) => `<button data-k="${k}">${esc(tt(a[0]))}</button>`).join("")}</div>`;
+      $$("#qBox .qopts button").forEach((b) => (b.onclick = () => { qa.push(Q.a[b.dataset.k][1]); drawQuiz(); }));
+    };
+    const drawDrop = () => {
+      if (!$("#drop")) return;
+      $("#dTt").textContent = tt(["Next collection", "次の新作"]); $("#dBt").textContent = tt(["Get notified first", "先行案内を受け取る"]);
+      $("#dTx").textContent = (DICT.next_drop_text && (DICT.next_drop_text[lang] || DICT.next_drop_text.en)) || tt(["New one-of-a-kind abayas are arriving. Subscribers hear first.", "新しい一点ものアバヤが入荷します。登録者に先にご案内します。"]);
+    };
+    const tick = () => { const el = $("#dCd"); if (!el) return; let s = Math.max(0, Math.floor((dropTs - Date.now()) / 1000)); const u = [[86400, tt(["days", "日"])], [3600, tt(["hours", "時間"])], [60, tt(["min", "分"])], [1, tt(["sec", "秒"])]]; el.innerHTML = u.map(([n, l]) => { const v = Math.floor(s / n); s -= v * n; return `<div><b>${String(v).padStart(2, "0")}</b><small>${l}</small></div>`; }).join(""); };
+    drawDaily(); drawQuiz(); drawDrop(); tick(); if (dropTs) setInterval(tick, 1000);
+    onLang(() => { drawDaily(); drawQuiz(); drawDrop(); tick(); });
+  }
+
+  /* ---------- transisi halaman (loading elegan) + garis progres scroll ---------- */
+  function pageFx() {
+    const mark = () => document.body.classList.add("ready");
+    if (document.readyState === "complete") mark(); else window.addEventListener("load", mark);
+    setTimeout(mark, 1800);
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest && e.target.closest("a[href]");
+      if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || a.target === "_blank" || a.hasAttribute("download")) return;
+      const u = new URL(a.href, location.href);
+      if (u.origin !== location.origin || (u.pathname === location.pathname && u.search === location.search) || !/\.html?$|\/$/.test(u.pathname)) return;
+      e.preventDefault(); document.documentElement.classList.add("leaving");
+      setTimeout(() => (location.href = u.href), 420);
+    });
+    window.addEventListener("pageshow", (e) => { if (e.persisted) document.documentElement.classList.remove("leaving"); });
+    const bar = document.createElement("div"); bar.id = "sbar"; document.body.appendChild(bar);
+    const f = () => { const h = document.documentElement; bar.style.width = (h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)) * 100 + "%"; };
+    window.addEventListener("scroll", f, { passive: true }); f();
+  }
+
   /* ---------- halaman ---------- */
   const pages = {
     async home() {
@@ -240,6 +340,7 @@
         bindPosts(visible(posts));
       };
       draw(); onLang(draw);
+      homeExtras(prods);
       instaSection(gal); onLang(() => instaSection(gal));
     },
     async brand() {
@@ -394,7 +495,7 @@
 
   /* ---------- mulai ---------- */
   document.addEventListener("DOMContentLoaded", async () => {
-    chrome();
+    chrome(); pageFx();
     $("#lbX").onclick = closeLb; $("#lbP").onclick = () => lbStep(-1); $("#lbN").onclick = () => lbStep(1);
     $("#lb").addEventListener("click", (e) => { if (e.target.id === "lb") closeLb(); });
     $("#modal").addEventListener("click", (e) => { if (e.target.id === "modal") closeModal(); });
