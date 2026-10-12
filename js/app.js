@@ -312,7 +312,7 @@
     quiz.insertAdjacentHTML("afterend", '<section id="custom"><div class="wrap"><div class="custombar rv in"><div><span class="eyebrow" id="cuE"></span><h2 id="cuH"></h2><p id="cuT"></p></div><a class="btn solid" href="custom.html" id="cuB"></a></div></div></section>');
     const dc = () => { $("#cuE").textContent = t("cu_eyebrow"); $("#cuH").textContent = t("cu_h"); $("#cuT").textContent = t("cu_banner"); $("#cuB").textContent = t("cu_cta"); };
     dc(); onLang(dc);
-    const rows = visible(await getData("reviews")).filter((r) => L(r, "text"));
+    const rows = (await getData("reviews")).filter((r) => String(r.status).toUpperCase() === "TRUE" && L(r, "text") && !/^\(/.test(L(r, "text")) && !/^\(/.test(r.name || ""));
     if (!rows.length) return;
     $("#custom").insertAdjacentHTML("afterend", '<section class="alt" id="reviews"><div class="wrap"><div class="sec-head"><span class="eyebrow">Reviews</span><h2 id="rvH"></h2><div class="rule"></div></div><div class="grid g3" id="rvList"></div><p class="center" style="margin-top:26px"><a class="btn dark" id="rvB"></a></p></div></section>');
     const dr = () => {
