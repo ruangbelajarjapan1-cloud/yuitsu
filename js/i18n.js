@@ -236,3 +236,8 @@ size_tip:{en:"Not sure? Send us your height and we will recommend a kimono.",jp:
 Object.assign(window.T, {
 how_overseas:{en:"International shipping is quoted separately by email; the amount shown covers the kimono only.",jp:"海外送料は別途メールでご案内します。上記は着物の代金のみです。"}
 });
+
+Object.assign(window.T, {
+insta_t:{en:"Follow our daily work, new kimono and styling ideas.",jp:"日々の制作、新作の着物、コーディネートをご紹介しています。"},
+insta_btn:{en:"Follow",jp:"フォローする"}
+});
