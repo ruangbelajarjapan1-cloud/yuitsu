@@ -67,7 +67,7 @@
   function ph(seed) {
     let h = 0; String(seed).split("").forEach((c) => (h = (h * 31 + c.charCodeAt(0)) >>> 0));
     const [a, b] = PAL[h % PAL.length], ink = "#2E4E9A";
-    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='520' viewBox='0 0 400 520'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${b}'/><stop offset='1' stop-color='${a}'/></linearGradient><pattern id='p' width='36' height='18' patternUnits='userSpaceOnUse'><g fill='none' stroke='#fff' stroke-opacity='.45' stroke-width='1'><circle cx='18' cy='18' r='17'/><circle cx='18' cy='18' r='11'/><circle cx='0' cy='9' r='17'/><circle cx='0' cy='9' r='11'/><circle cx='36' cy='9' r='17'/><circle cx='36' cy='9' r='11'/></g></pattern></defs><rect width='400' height='520' fill='url(#g)'/><rect width='400' height='520' fill='url(#p)'/><g fill='#fff' fill-opacity='.55' stroke='${ink}' stroke-opacity='.8' stroke-width='1.6' stroke-linejoin='round'><path d='M200 92 L158 104 L96 150 L96 232 L134 232 L134 168 L150 160 L150 420 L250 420 L250 160 L266 168 L266 232 L304 232 L304 150 L242 104 Z'/><path d='M200 92 L178 190 L222 190 Z' fill='none' stroke-opacity='.55'/><path d='M150 262 L250 262 L250 300 L150 300 Z' fill='${ink}' fill-opacity='.18'/></g><text x='200' y='470' text-anchor='middle' font-family='serif' font-size='15' letter-spacing='9' fill='${ink}' fill-opacity='.8'>YUITSU</text></svg>`;
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='520' viewBox='0 0 400 520'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${b}'/><stop offset='1' stop-color='${a}'/></linearGradient><pattern id='p' width='36' height='18' patternUnits='userSpaceOnUse'><g fill='none' stroke='#fff' stroke-opacity='.45' stroke-width='1'><circle cx='18' cy='18' r='17'/><circle cx='18' cy='18' r='11'/><circle cx='0' cy='9' r='17'/><circle cx='0' cy='9' r='11'/><circle cx='36' cy='9' r='17'/><circle cx='36' cy='9' r='11'/></g></pattern></defs><rect width='400' height='520' fill='url(#g)'/><rect width='400' height='520' fill='url(#p)'/><g fill='#fff' fill-opacity='.55' stroke='${ink}' stroke-opacity='.8' stroke-width='1.6' stroke-linejoin='round'><path d='M200 88 L162 100 L108 146 L100 310 L134 310 L140 196 L152 182 L136 446 L264 446 L248 182 L260 196 L266 310 L300 310 L292 146 L238 100 Z'/><path d='M200 100 L200 446' fill='none' stroke-opacity='.6' stroke-dasharray='5 5'/><path d='M178 100 L200 150 L222 100' fill='none' stroke-opacity='.6'/></g><text x='200' y='470' text-anchor='middle' font-family='serif' font-size='15' letter-spacing='9' fill='${ink}' fill-opacity='.8'>YUITSU</text></svg>`;
     return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg).replace(/'/g, "%27").replace(/\(/g, "%28").replace(/\)/g, "%29");
   }
   const img = (url, seed) => url || ph(seed);
@@ -88,7 +88,7 @@
       <div class="tools"><div class="lang"><button data-l="en">EN</button><button data-l="jp">日本語</button></div>
       <button class="cart-btn" id="cartBtn" aria-label="cart">🛍<b id="cartN">0</b></button><button class="burger" id="burger" aria-label="menu">☰</button></div></div></header>`;
     $("#ftr").innerHTML = `<footer class="site"><div class="wrap"><div class="cols">
-      <div><h4 data-brand></h4><p>${esc(S.EMAIL)}</p><p data-i18n="address_text"></p><p data-i18n="hours"></p><div class="chips" style="justify-content:flex-start"><span>PayPal</span><span>Card</span><span>Bank</span><span>COD</span></div></div>
+      <div><h4 data-brand></h4><p>${esc(S.EMAIL)}</p><p data-i18n="address_text"></p><p data-i18n="hours"></p><div class="chips paylogos" style="justify-content:flex-start;margin-top:12px"></div></div>
       <div><h4 data-i18n="f_explore"></h4><a href="shop.html" data-i18n="nav_shop"></a><a href="brand.html" data-i18n="nav_brand"></a><a href="philosophy.html" data-i18n="nav_philosophy"></a><a href="gallery.html" data-i18n="nav_gallery"></a></div>
       <div><h4 data-i18n="f_help"></h4><a href="kaitori.html" data-i18n="nav_kaitori"></a><a href="faq.html" data-i18n="nav_faq"></a><a href="size-guide.html" data-i18n="nav_size"></a><a href="blog.html" data-i18n="nav_blog"></a><a href="contact.html" data-i18n="nav_contact"></a></div>
       <div><h4 data-i18n="f_follow"></h4><div class="social">${socialLinks()}</div><a href="legal.html" data-i18n="f_legal" style="margin-top:10px"></a></div>
@@ -112,6 +112,21 @@
     });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeCart(); closeLb(); closeModal(); } });
   }
+
+
+  /* ---------- logo pembayaran (SVG sederhana; ganti dengan logo resmi bila perlu) ---------- */
+  const PAYLOGO = {
+    PayPal: '<text x="26" y="20" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-style="italic" font-size="12.5"><tspan fill="#003087">Pay</tspan><tspan fill="#009CDE">Pal</tspan></text>',
+    Visa: '<text x="26" y="21" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-style="italic" font-size="15" fill="#1A1F71" letter-spacing="-.5">VISA</text>',
+    Mastercard: '<circle cx="20" cy="16" r="9" fill="#EB001B"/><circle cx="32" cy="16" r="9" fill="#F79E1B"/><path d="M26 9.3A9 9 0 0 1 26 22.7A9 9 0 0 1 26 9.3Z" fill="#FF5F00"/>',
+    JCB: '<rect x="8" y="7" width="11" height="18" rx="3" fill="#0B4EA2"/><rect x="20.5" y="7" width="11" height="18" rx="3" fill="#D5001C"/><rect x="33" y="7" width="11" height="18" rx="3" fill="#00873E"/><g fill="#fff" font-family="Arial,sans-serif" font-weight="800" font-size="10" text-anchor="middle"><text x="13.5" y="20">J</text><text x="26" y="20">C</text><text x="38.5" y="20">B</text></g>',
+    Bank: '<g fill="none" stroke="#2E4E9A" stroke-width="1.6" stroke-linejoin="round"><path d="M26 6 L40 12 H12 Z"/><path d="M15 15v9M21 15v9M31 15v9M37 15v9M11 26h30"/></g>',
+    COD: '<g fill="none" stroke="#2F8F5B" stroke-width="1.6"><rect x="9" y="9" width="34" height="14" rx="2"/><circle cx="26" cy="16" r="3.4"/><path d="M13 12.5v7M39 12.5v7"/></g>'
+  };
+  function payLogos(list) {
+    return (list || ["PayPal", "Visa", "Mastercard", "JCB", "Bank", "COD"]).map((n) => `<svg viewBox="0 0 52 32" role="img" aria-label="${n}"><title>${n}</title>${PAYLOGO[n]}</svg>`).join("");
+  }
+  const injectPayLogos = (root = document) => $$(".chips", root).forEach((e) => { e.classList.add("paylogos"); e.innerHTML = payLogos(); });
 
   /* ---------- media sosial ---------- */
   const IG_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg>';
@@ -161,7 +176,7 @@
     if (!cart.length) { box.innerHTML = `<p style="padding:30px 0;color:var(--muted)">${t("cart_empty")}</p>`; foot.innerHTML = ""; return; }
     box.innerHTML = cart.map((c, i) => `<div class="ci"><img src="${esc(pic(c.image_url, c.id))}" alt=""><div><div>${esc(lang === "jp" ? c.name_jp : c.name_en)}</div><small>${yen(c.price)} × ${c.qty}</small><br><button class="rm" data-rm="${i}">${t("remove")}</button></div><div class="price">${yen(c.price * c.qty)}</div></div>`).join("");
     const k = calc();
-    foot.innerHTML = `<div class="sum"><span>${t("subtotal")}</span><span>${yen(k.sub)}</span></div><div class="sum"><span>${t("shipping")}</span><span>${k.ship ? yen(k.ship) : t("free")}</span></div><div class="sum t"><span>${t("total")}</span><span>${yen(k.total)}</span></div><a class="btn solid" style="display:block;text-align:center;margin-top:14px" href="checkout.html">${t("checkout")}</a>`;
+    foot.innerHTML = `<div class="sum"><span>${t("subtotal")}</span><span>${yen(k.sub)}</span></div><div class="sum"><span>${t("shipping")}</span><span>${k.ship ? yen(k.ship) : t("free")}</span></div><div class="sum t"><span>${t("total")}</span><span>${yen(k.total)}</span></div><a class="btn solid" style="display:block;text-align:center;margin-top:14px" href="checkout.html">${t("checkout")}</a><div class="paylogos" style="justify-content:center;margin-top:14px">${payLogos()}</div>`;
     $$("[data-rm]", box).forEach((b) => (b.onclick = () => { cart.splice(+b.dataset.rm, 1); saveCart(); }));
   }
   const openCart = () => { $("#drawer").classList.add("open"); $("#shade").classList.add("open"); renderCart(); };
@@ -199,7 +214,7 @@
     let q = 1;
     const box = $("#modalBox");
     box.innerHTML = `<button class="x" id="mx">×</button><div><div class="ph" style="aspect-ratio:4/5"><img id="mImg" src="${esc(imgs[0])}" style="width:100%;height:100%;object-fit:cover" alt=""></div>${imgs.length > 1 ? `<div class="thumbs">${imgs.map((s, i) => `<img src="${esc(s)}" class="${i ? "" : "on"}" data-i="${i}" alt="">`).join("")}</div>` : ""}</div>
-      <div class="info"><span class="eyebrow">${esc(L(p, "category"))}</span><h2>${esc(L(p, "name"))}</h2><span class="price">${yen(p.price)}</span><p>${esc(L(p, "desc"))}</p><table class="spec">${p.size ? `<tr><td>${t("size")}</td><td>${esc(p.size)}</td></tr>` : ""}${p.material_en ? `<tr><td>${t("material")}</td><td>${esc(L(p, "material"))}</td></tr>` : ""}<tr><td>${t("in_stock")}</td><td>${stock > 0 ? stock : t("sold_out")}</td></tr></table><p class="note" style="margin-top:10px"><a href="size-guide.html" style="text-decoration:underline">${t("shop_sizelink")}</a></p>
+      <div class="info"><span class="eyebrow">${esc(L(p, "category"))}</span><h2>${esc(L(p, "name"))}</h2><span class="price">${yen(p.price)}</span><p>${esc(L(p, "desc"))}</p><table class="spec">${p.size ? `<tr><td>${t("size")}</td><td>${esc(p.size)}</td></tr>` : ""}${p.material_en ? `<tr><td>${t("material")}</td><td>${esc(L(p, "material"))}</td></tr>` : ""}<tr><td>${t("in_stock")}</td><td>${stock > 0 ? stock : t("sold_out")}</td></tr></table><div class="paylogos" style="margin-top:18px">${payLogos(["PayPal", "Visa", "Mastercard", "JCB", "Bank"])}</div><p class="note" style="margin-top:10px"><a href="size-guide.html" style="text-decoration:underline">${t("shop_sizelink")}</a></p>
       <div style="margin-top:22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap">${stock > 1 ? `<div class="qty"><button id="qm">−</button><span id="qn">1</span><button id="qp">+</button></div>` : ""}<button class="btn solid" id="addB" ${stock <= 0 ? "disabled" : ""}>${stock <= 0 ? t("sold_out") : t("add_cart")}</button></div></div>`;
     $("#modal").classList.add("open");
     $("#mx").onclick = closeModal;
@@ -386,7 +401,7 @@
     await loadOverrides();
     document.documentElement.lang = lang === "jp" ? "ja" : "en";
     $$(".lang button").forEach((b) => b.classList.toggle("on", b.dataset.l === lang));
-    applyI18n(); renderCart(); reveal(); fillImgs();
+    applyI18n(); renderCart(); reveal(); fillImgs(); injectPayLogos();
     onLang(renderCart);
     const p = document.body.dataset.page; if (pages[p]) pages[p]();
   });
