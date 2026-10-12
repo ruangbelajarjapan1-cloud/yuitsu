@@ -1,23 +1,23 @@
 /* ===== YUITSU KIMONO — tema elegan Jepang =====
    Ubah warna di bagian :root saja. */
 :root{
-  --bg:#FFFCF8;        /* putih hangat */
-  --bg2:#FDF0F2;       /* sakura pucat */
-  --sky:#EAF4FC;       /* sora (langit) pucat */
-  --ink:#26283A;
-  --muted:#6b6878;
-  --indigo:#2E4E9A;    /* 瑠璃 biru cerah */
-  --indigo2:#4468BC;
-  --gold:#E0A93B;      /* 山吹 kuning emas cerah */
-  --gold2:#B27A12;     /* emas untuk teks kecil */
-  --accent:#D94A73;    /* 桜 merah muda tegas */
-  --sakura:#F7C5D2;
-  --line:#F0E1DE;
+  --bg:#FCFAF7;        /* gading hangat */
+  --bg2:#F6EDE8;       /* krem kemerahan lembut */
+  --sky:#F2EAE4;       /* pasir hangat */
+  --ink:#2B2625;       /* arang (charcoal) dari logo */
+  --muted:#76696A;
+  --indigo:#5E1218;    /* burgundy logo (nama variabel lama dipertahankan) */
+  --indigo2:#85272E;
+  --gold:#B07C5E;      /* tembaga/cokelat logo */
+  --gold2:#8C5A3F;
+  --accent:#7A1C22;    /* merah anggur */
+  --sakura:#E8D2C9;
+  --line:#EADFD8;
   --serif:"Cormorant Garamond","Shippori Mincho","Noto Serif JP",serif;
   --jp:"Shippori Mincho","Noto Serif JP",serif;
   --sans:"Noto Sans JP",system-ui,-apple-system,"Segoe UI",sans-serif;
   --max:1160px;
-  --shadow:0 18px 50px -26px rgba(46,78,154,.35);
+  --shadow:0 18px 50px -26px rgba(94,18,24,.38);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -357,7 +357,7 @@ header.site{background:rgba(255,252,248,.95)}
 .hero .bg{opacity:.5}
 .hero::before{background:
   radial-gradient(ellipse at 50% 42%,rgba(255,255,255,.78),rgba(255,255,255,.2) 70%),
-  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20'%3E%3Cg fill='none' stroke='%232E4E9A' stroke-opacity='.13'%3E%3Ccircle cx='20' cy='20' r='19'/%3E%3Ccircle cx='20' cy='20' r='13'/%3E%3Ccircle cx='0' cy='10' r='19'/%3E%3Ccircle cx='0' cy='10' r='13'/%3E%3Ccircle cx='40' cy='10' r='19'/%3E%3Ccircle cx='40' cy='10' r='13'/%3E%3C/g%3E%3C/svg%3E")}
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20'%3E%3Cg fill='none' stroke='%235E1218' stroke-opacity='.08'%3E%3Ccircle cx='20' cy='20' r='19'/%3E%3Ccircle cx='20' cy='20' r='13'/%3E%3Ccircle cx='0' cy='10' r='19'/%3E%3Ccircle cx='0' cy='10' r='13'/%3E%3Ccircle cx='40' cy='10' r='19'/%3E%3Ccircle cx='40' cy='10' r='13'/%3E%3C/g%3E%3C/svg%3E")}
 .hero::after{border-color:rgba(224,169,59,.8)}
 .hero h1{text-shadow:none;color:var(--indigo)}
 .hero p{opacity:1;color:#3d4262}
@@ -398,3 +398,47 @@ footer.site .chips span{background:#fff}
 .paylogos svg{width:54px;height:34px;background:#fff;border:1px solid #e3dcd8;border-radius:6px;padding:1px}
 .chips.paylogos{margin-top:12px}
 .chips.paylogos span{display:none}
+
+
+/* ===== v5: warna & gaya mengikuti logo (burgundy · tembaga · arang) ===== */
+.announce{background:var(--indigo);color:#EBD7CB;font-weight:300}
+header.site{background:rgba(252,250,247,.96)}
+.page-top{background:linear-gradient(var(--bg2),var(--bg))}
+.hero{color:var(--indigo);background:linear-gradient(135deg,#FBF4EF 0%,#F3E6DF 55%,#EBDAD1 100%)}
+.hero::before{background:
+  radial-gradient(ellipse at 50% 42%,rgba(252,250,247,.82),rgba(252,250,247,.25) 70%),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20'%3E%3Cg fill='none' stroke='%235E1218' stroke-opacity='.08'%3E%3Ccircle cx='20' cy='20' r='19'/%3E%3Ccircle cx='20' cy='20' r='13'/%3E%3Ccircle cx='0' cy='10' r='19'/%3E%3Ccircle cx='0' cy='10' r='13'/%3E%3Ccircle cx='40' cy='10' r='19'/%3E%3Ccircle cx='40' cy='10' r='13'/%3E%3C/g%3E%3C/svg%3E")}
+.hero::after{border-color:rgba(176,124,94,.7)}
+.hero p{color:#4a3f3e}
+.hero .eyebrow{color:var(--gold2)}
+.hero .btn:hover,.btn.solid:hover,.btn.gold:hover{background:var(--gold2);border-color:var(--gold2);color:#fff}
+.vtext{color:var(--gold2)}
+.petals i{background:rgba(133,39,46,.35)}
+.tag.sold{background:#8b7f7d}
+.news{background:linear-gradient(120deg,#5E1218 0%,#7A1C22 100%);color:#F3E4DB}
+.news .eyebrow{color:#D9AD93!important}
+.news .msg{color:#EBD7CB}
+.news button{background:var(--gold);color:#fff}
+.news button:hover{background:#C48F70}
+footer.site{background:#2B2625;color:#CDBFB9}
+footer.site h4{color:#E4C3AE}
+footer.site a:hover{color:#E4C3AE}
+.copy{border-top-color:rgba(255,255,255,.14)}
+.social a{border-color:rgba(228,195,174,.45);background:transparent;color:#E4C3AE!important}
+.social a:hover{background:#E4C3AE;color:#2B2625!important;border-color:#E4C3AE}
+.igtiles a::after{background:rgba(94,18,24,0)}
+.igtiles a:hover::after{background:rgba(94,18,24,.35)}
+/* logo: lambang + tulisan */
+.logo-img{height:46px}
+.logo.has-img span{display:block}
+.logo.has-img small{display:none}
+.logo{color:var(--indigo);letter-spacing:.32em}
+/* prinsip merek (dari Instagram) */
+.pledge{max-width:760px;margin:0 auto;text-align:center}
+.pledge p{font-family:var(--serif);font-size:1.35rem;line-height:1.9;color:var(--ink)}
+.pledge p em{color:var(--indigo);font-style:italic}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:40px}
+.pillars div{border-top:1px solid var(--gold);padding-top:18px;text-align:left}
+.pillars h3{font-family:var(--serif);font-size:1.35rem;font-weight:500;color:var(--indigo)}
+.pillars p{font-size:.9rem;color:var(--muted)}
+@media(max-width:700px){.pillars{grid-template-columns:1fr}}
