@@ -1,0 +1,44 @@
+[
+ {
+  "id": "B001",
+  "date": "2026-10-01",
+  "title_en": "Autumn collection is here",
+  "title_jp": "秋の新作が入りました",
+  "category_en": "New",
+  "category_jp": "新作",
+  "summary_en": "Deep indigo, persimmon and plum. Autumn pieces are now in the shop.",
+  "summary_jp": "藍、柿色、梅紫。秋の作品がショップに並びました。",
+  "body_en": "Our autumn pieces were cut during September, when the air first turns dry. Replace this with your real article.\n\nWrite as many paragraphs as you like.",
+  "body_jp": "九月、空気が乾き始める頃に裁断した秋の作品です。ここに実際の記事をお書きください。\n\n段落はいくつでも追加できます。",
+  "image_url": "",
+  "status": "TRUE"
+ },
+ {
+  "id": "B002",
+  "date": "2026-09-15",
+  "title_en": "Kimono buyback now open",
+  "title_jp": "着物買取を始めました",
+  "category_en": "Service",
+  "category_jp": "サービス",
+  "summary_en": "Send photos online and receive a free estimate in 2–3 days.",
+  "summary_jp": "写真を送るだけ。2〜3日で無料査定のご連絡をします。",
+  "body_en": "Details of the service and how to apply.",
+  "body_jp": "サービスの詳細とお申し込み方法をご案内します。",
+  "image_url": "",
+  "status": "TRUE"
+ },
+ {
+  "id": "B003",
+  "date": "2026-08-20",
+  "title_en": "Story of a mother’s furisode",
+  "title_jp": "母の振袖の物語",
+  "category_en": "Story",
+  "category_jp": "物語",
+  "summary_en": "A furisode kept for 40 years became a small pouch.",
+  "summary_jp": "四十年しまわれていた振袖が、小さなポーチになりました。",
+  "body_en": "Write the customer story here (with their permission).",
+  "body_jp": "お客様のお話をここに（ご本人の許可を得てお書きください）。",
+  "image_url": "",
+  "status": "TRUE"
+ }
+]

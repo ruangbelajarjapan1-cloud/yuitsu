@@ -1,0 +1,38 @@
+[
+ {
+  "id": "T1",
+  "year": "19XX",
+  "title_en": "The first kimono",
+  "title_jp": "最初の一枚",
+  "text_en": "Replace with your real founding story.",
+  "text_jp": "創業のきっかけを、ここにお書きください。",
+  "image_url": ""
+ },
+ {
+  "id": "T2",
+  "year": "20XX",
+  "title_en": "The first piece",
+  "title_jp": "最初の作品",
+  "text_en": "The first piece made from a family kimono.",
+  "text_jp": "家族の着物から作った最初の作品。",
+  "image_url": ""
+ },
+ {
+  "id": "T3",
+  "year": "20XX",
+  "title_en": "Opening the atelier",
+  "title_jp": "アトリエの開設",
+  "text_en": "Moving from a kitchen table to a small studio.",
+  "text_jp": "食卓から小さなアトリエへ。",
+  "image_url": ""
+ },
+ {
+  "id": "T4",
+  "year": "2026",
+  "title_en": "Kimono buyback",
+  "title_jp": "着物買取のはじまり",
+  "text_en": "Bringing unworn kimono back to life.",
+  "text_jp": "眠る着物を、もう一度。",
+  "image_url": ""
+ }
+]

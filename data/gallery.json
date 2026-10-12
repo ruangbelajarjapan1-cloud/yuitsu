@@ -1,0 +1,83 @@
+[
+ {
+  "id": "G001",
+  "image_url": "",
+  "caption_en": "Haori jacket",
+  "caption_jp": "羽織ジャケット",
+  "category_en": "Product",
+  "category_jp": "作品",
+  "status": "TRUE"
+ },
+ {
+  "id": "G002",
+  "image_url": "",
+  "caption_en": "Hand-cutting the silk",
+  "caption_jp": "絹の裁断",
+  "category_en": "Process",
+  "category_jp": "制作",
+  "status": "TRUE"
+ },
+ {
+  "id": "G003",
+  "image_url": "",
+  "caption_en": "Obi table runner",
+  "caption_jp": "帯ランナー",
+  "category_en": "Product",
+  "category_jp": "作品",
+  "status": "TRUE"
+ },
+ {
+  "id": "G004",
+  "image_url": "",
+  "caption_en": "Unpicking seams",
+  "caption_jp": "縫い目をほどく",
+  "category_en": "Process",
+  "category_jp": "制作",
+  "status": "TRUE"
+ },
+ {
+  "id": "G005",
+  "image_url": "",
+  "caption_en": "Vintage kimono archive",
+  "caption_jp": "着物のアーカイブ",
+  "category_en": "Material",
+  "category_jp": "素材",
+  "status": "TRUE"
+ },
+ {
+  "id": "G006",
+  "image_url": "",
+  "caption_en": "Sakura scarf",
+  "caption_jp": "桜のスカーフ",
+  "category_en": "Product",
+  "category_jp": "作品",
+  "status": "TRUE"
+ },
+ {
+  "id": "G007",
+  "image_url": "",
+  "caption_en": "Pattern placement",
+  "caption_jp": "柄合わせ",
+  "category_en": "Process",
+  "category_jp": "制作",
+  "status": "TRUE"
+ },
+ {
+  "id": "G008",
+  "image_url": "",
+  "caption_en": "Gold crane brocade",
+  "caption_jp": "金の鶴の金襴",
+  "category_en": "Material",
+  "category_jp": "素材",
+  "status": "TRUE"
+ },
+ {
+  "id": "G009",
+  "image_url": "",
+  "caption_en": "Tote bag",
+  "caption_jp": "トートバッグ",
+  "category_en": "Product",
+  "category_jp": "作品",
+  "status": "TRUE"
+ }
+]
