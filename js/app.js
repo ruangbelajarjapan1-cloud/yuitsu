@@ -5,6 +5,8 @@
 (function () {
   "use strict";
   const S = Object.assign({ PAYPAL_ME: "", STRIPE_LINK: "", BANK_JP: "", BANK_EN: "" }, window.SITE), DICT = window.T;
+  S.INSTAGRAM = S.INSTAGRAM || "https://www.instagram.com/yuitsu_1/";
+  ["TIKTOK", "FACEBOOK", "YOUTUBE", "PINTEREST", "BEHOLD_ID"].forEach((k) => (S[k] = S[k] || ""));
   try { const fl = document.createElement("link"); fl.rel = "stylesheet"; fl.href = "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap"; document.head.appendChild(fl); } catch (e) {}
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -61,11 +63,11 @@
   }
 
   /* ---------- gambar placeholder (muncul jika foto belum diisi) ---------- */
-  const PAL = [["#243452", "#3b4f78"], ["#7b2f3b", "#a14b58"], ["#42563f", "#6a8164"], ["#5a4636", "#8a7058"], ["#2f4a5e", "#5b7f99"], ["#5f4560", "#8d6b8d"], ["#3a3a46", "#62627a"], ["#7a6234", "#a98f55"]];
+  const PAL = [["#F4A7BB", "#FAD3DD"], ["#8DBBE3", "#C3DDF3"], ["#9AD0B1", "#CBE8D8"], ["#F3C47E", "#FAE0B4"], ["#B9A8E4", "#DAD0F3"], ["#EE9A9A", "#F8C6C6"], ["#7FB8CC", "#B8DCE8"], ["#E8B3D3", "#F5D6E8"]];
   function ph(seed) {
     let h = 0; String(seed).split("").forEach((c) => (h = (h * 31 + c.charCodeAt(0)) >>> 0));
-    const [a, b] = PAL[h % PAL.length];
-    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='520' viewBox='0 0 400 520'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${b}'/><stop offset='1' stop-color='${a}'/></linearGradient><pattern id='p' width='36' height='18' patternUnits='userSpaceOnUse'><g fill='none' stroke='#fff' stroke-opacity='.10' stroke-width='1'><circle cx='18' cy='18' r='17'/><circle cx='18' cy='18' r='11'/><circle cx='0' cy='9' r='17'/><circle cx='0' cy='9' r='11'/><circle cx='36' cy='9' r='17'/><circle cx='36' cy='9' r='11'/></g></pattern></defs><rect width='400' height='520' fill='url(#g)'/><rect width='400' height='520' fill='url(#p)'/><g fill='none' stroke='#e9d9b8' stroke-opacity='.85' stroke-width='1.6' stroke-linejoin='round'><path d='M200 92 L158 104 L96 150 L96 232 L134 232 L134 168 L150 160 L150 420 L250 420 L250 160 L266 168 L266 232 L304 232 L304 150 L242 104 Z'/><path d='M200 92 L178 190 L222 190 Z' stroke-opacity='.6'/><path d='M150 262 L250 262 L250 300 L150 300 Z' stroke-opacity='.7'/></g><text x='200' y='470' text-anchor='middle' font-family='serif' font-size='15' letter-spacing='9' fill='#e9d9b8' fill-opacity='.8'>YUITSU</text></svg>`;
+    const [a, b] = PAL[h % PAL.length], ink = "#2E4E9A";
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='520' viewBox='0 0 400 520'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${b}'/><stop offset='1' stop-color='${a}'/></linearGradient><pattern id='p' width='36' height='18' patternUnits='userSpaceOnUse'><g fill='none' stroke='#fff' stroke-opacity='.45' stroke-width='1'><circle cx='18' cy='18' r='17'/><circle cx='18' cy='18' r='11'/><circle cx='0' cy='9' r='17'/><circle cx='0' cy='9' r='11'/><circle cx='36' cy='9' r='17'/><circle cx='36' cy='9' r='11'/></g></pattern></defs><rect width='400' height='520' fill='url(#g)'/><rect width='400' height='520' fill='url(#p)'/><g fill='#fff' fill-opacity='.55' stroke='${ink}' stroke-opacity='.8' stroke-width='1.6' stroke-linejoin='round'><path d='M200 92 L158 104 L96 150 L96 232 L134 232 L134 168 L150 160 L150 420 L250 420 L250 160 L266 168 L266 232 L304 232 L304 150 L242 104 Z'/><path d='M200 92 L178 190 L222 190 Z' fill='none' stroke-opacity='.55'/><path d='M150 262 L250 262 L250 300 L150 300 Z' fill='${ink}' fill-opacity='.18'/></g><text x='200' y='470' text-anchor='middle' font-family='serif' font-size='15' letter-spacing='9' fill='${ink}' fill-opacity='.8'>YUITSU</text></svg>`;
     return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg).replace(/'/g, "%27").replace(/\(/g, "%28").replace(/\)/g, "%29");
   }
   const img = (url, seed) => url || ph(seed);
@@ -89,7 +91,7 @@
       <div><h4 data-brand></h4><p>${esc(S.EMAIL)}</p><p data-i18n="address_text"></p><p data-i18n="hours"></p><div class="chips" style="justify-content:flex-start"><span>PayPal</span><span>Card</span><span>Bank</span><span>COD</span></div></div>
       <div><h4 data-i18n="f_explore"></h4><a href="shop.html" data-i18n="nav_shop"></a><a href="brand.html" data-i18n="nav_brand"></a><a href="philosophy.html" data-i18n="nav_philosophy"></a><a href="gallery.html" data-i18n="nav_gallery"></a></div>
       <div><h4 data-i18n="f_help"></h4><a href="kaitori.html" data-i18n="nav_kaitori"></a><a href="faq.html" data-i18n="nav_faq"></a><a href="size-guide.html" data-i18n="nav_size"></a><a href="blog.html" data-i18n="nav_blog"></a><a href="contact.html" data-i18n="nav_contact"></a></div>
-      <div><h4 data-i18n="f_follow"></h4>${S.INSTAGRAM ? `<a href="${esc(S.INSTAGRAM)}" target="_blank" rel="noopener">Instagram</a>` : ""}${S.LINE_URL ? `<a href="${esc(S.LINE_URL)}" target="_blank" rel="noopener">LINE</a>` : ""}<a href="legal.html" data-i18n="f_legal"></a></div>
+      <div><h4 data-i18n="f_follow"></h4><div class="social">${socialLinks()}</div><a href="legal.html" data-i18n="f_legal" style="margin-top:10px"></a></div>
       </div><div class="copy">© ${new Date().getFullYear()} <span data-brand></span> KIMONO. <span data-i18n="rights"></span></div></div></footer>
       ${S.LINE_URL ? `<a class="line-fab" href="${esc(S.LINE_URL)}" target="_blank" rel="noopener" data-i18n="line_btn"></a>` : ""}`;
     const nl = $("#newsletter");
@@ -109,6 +111,23 @@
       m.className = "msg"; m.style.display = "block"; m.textContent = r.demo ? t("demo_mode") : r.ok ? t("sent_ok") : t("sent_err"); if (r.ok) nf.reset();
     });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeCart(); closeLb(); closeModal(); } });
+  }
+
+  /* ---------- media sosial ---------- */
+  const IG_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg>';
+  function socialLinks() {
+    const list = [["Instagram", S.INSTAGRAM, IG_SVG], ["TikTok", S.TIKTOK], ["Facebook", S.FACEBOOK], ["YouTube", S.YOUTUBE], ["Pinterest", S.PINTEREST], ["LINE", S.LINE_URL]];
+    return list.filter((x) => x[1]).map(([n, u, i]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${i || ""}${n}</a>`).join("");
+  }
+  const igHandle = () => "@" + String(S.INSTAGRAM).replace(/\/+$/, "").split("/").pop().replace(/\?.*$/, "");
+  function instaSection(gal) {
+    const nl = $("#newsletter"); if (!nl || !S.INSTAGRAM) return;
+    let el = $("#insta"); if (!el) { nl.insertAdjacentHTML("beforebegin", '<section class="alt" id="insta"><div class="wrap igwrap"></div></section>'); el = $("#insta"); }
+    const tiles = visible(gal).slice(0, 6).map((g) => `<a href="${esc(S.INSTAGRAM)}" target="_blank" rel="noopener" aria-label="Instagram" style="background-image:url('${esc(pic(g.image_url, g.id))}')"></a>`).join("");
+    el.firstElementChild.innerHTML = `<span class="eyebrow">Instagram</span><h2>${esc(igHandle())}</h2><div class="rule"></div><p style="color:var(--muted)">${t("insta_t")}</p>` +
+      (S.BEHOLD_ID ? `<div style="margin:30px 0"><behold-widget feed-id="${esc(S.BEHOLD_ID)}"></behold-widget></div>` : `<div class="igtiles">${tiles}</div>`) +
+      `<a class="btn solid" href="${esc(S.INSTAGRAM)}" target="_blank" rel="noopener">${t("insta_btn")} ${esc(igHandle())}</a>`;
+    if (S.BEHOLD_ID && !$("#beholdjs")) { const sc = document.createElement("script"); sc.type = "module"; sc.id = "beholdjs"; sc.src = "https://w.behold.so/widget.js"; document.head.appendChild(sc); }
   }
 
   /* ---------- kirim data ke Apps Script ---------- */
@@ -206,6 +225,7 @@
         bindPosts(visible(posts));
       };
       draw(); onLang(draw);
+      instaSection(gal); onLang(() => instaSection(gal));
     },
     async brand() {
       const tl = await getData("timeline");
