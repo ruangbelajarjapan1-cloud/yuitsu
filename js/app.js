@@ -81,12 +81,12 @@
   const NAV = [["index.html", "nav_home"], ["shop.html", "nav_shop"], ["brand.html", "nav_brand"], ["philosophy.html", "nav_philosophy"], ["gallery.html", "nav_gallery"], ["kaitori.html", "nav_kaitori"], ["faq.html", "nav_faq"], ["contact.html", "nav_contact"]];
   function chrome() {
     const cur = location.pathname.split("/").pop() || "index.html";
-    const links = NAV.map(([h, k]) => `<a href="${h}" class="${h === cur ? "on" : ""}" data-i18n="${k}"></a>`).join("");
+    const links = NAV.map(([h, k]) => `<a href="${h}" class="${h === cur ? "on" : ""}" data-i18n="${k}"></a>`).join("") + `<a href="#" class="nv-only" id="nvS" data-i18n="srch_t"></a><a href="#" class="nv-only" id="nvW" data-i18n="wish_t"></a>`;
     $("#hdr").innerHTML = `<div class="announce" data-i18n="announce"></div><header class="site"><div class="wrap bar">
       <a class="logo" href="index.html"><img class="logo-img" src="images/logo.png" alt="" onload="this.parentNode.classList.add('has-img')" onerror="this.remove()"><span data-brand></span><small>${esc(S.TAGLINE_EN || "")}</small></a>
       <nav class="main" id="nav">${links}</nav>
       <div class="tools"><div class="lang"><button data-l="en">EN</button><button data-l="jp">日本語</button></div>
-      <button class="cart-btn" id="cartBtn" aria-label="cart"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 8.5h13l-1 11.5h-11z"/><path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"/></svg><b id="cartN">0</b></button><button class="burger" id="burger" aria-label="menu"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></header>`;
+      <button class="cart-btn dsk" id="srchBtn" aria-label="search"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button><button class="cart-btn dsk" id="wishBtn" aria-label="wishlist"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M12 19.5s-7-4.3-7-9.3A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.2c0 5-7 9.3-7 9.3z"/></svg><b id="wishN">0</b></button><button class="cart-btn" id="cartBtn" aria-label="cart"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 8.5h13l-1 11.5h-11z"/><path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"/></svg><b id="cartN">0</b></button><button class="burger" id="burger" aria-label="menu"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></header>`;
     $("#ftr").innerHTML = `<footer class="site"><div class="wrap"><div class="cols">
       <div><h4 data-brand></h4><p>${esc(S.EMAIL)}</p><p data-i18n="address_text"></p><p data-i18n="hours"></p><div class="chips paylogos" style="justify-content:flex-start;margin-top:12px"></div></div>
       <div><h4 data-i18n="f_explore"></h4><a href="shop.html" data-i18n="nav_shop"></a><a href="brand.html" data-i18n="nav_brand"></a><a href="philosophy.html" data-i18n="nav_philosophy"></a><a href="gallery.html" data-i18n="nav_gallery"></a></div>
@@ -104,13 +104,14 @@
       <div class="modal" id="modal"><div class="box" id="modalBox"></div></div>`);
     $$(".lang button").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.l)));
     $("#burger").onclick = () => $("#nav").classList.toggle("open");
+    $("#srchBtn").onclick = openSearch; $("#wishBtn").onclick = openWish; $("#nvS").onclick = (e) => { e.preventDefault(); $("#nav").classList.remove("open"); openSearch(); }; $("#nvW").onclick = (e) => { e.preventDefault(); $("#nav").classList.remove("open"); openWish(); };
     $("#cartBtn").onclick = openCart; $("#dClose").onclick = closeCart; $("#shade").onclick = closeCart;
     const nf = $("#newsForm");
     if (nf) nf.addEventListener("submit", async (e) => {
       e.preventDefault(); const m = $("#newsMsg"); const r = await post("subscribe", { email: nf.email.value, website: nf.website.value, lang });
       m.className = "msg"; m.style.display = "block"; m.textContent = r.demo ? t("demo_mode") : r.ok ? t("sent_ok") : t("sent_err"); if (r.ok) nf.reset();
     });
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeCart(); closeLb(); closeModal(); } });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeCart(); closeLb(); closeModal(); closeSearch(); } else if (e.key === "/" && !/INPUT|TEXTAREA|SELECT/.test((document.activeElement || {}).tagName || "")) { e.preventDefault(); openSearch(); } });
   }
 
 
@@ -173,10 +174,14 @@
   function renderCart() {
     $("#cartN").textContent = cart.reduce((a, c) => a + c.qty, 0);
     const box = $("#dItems"), foot = $("#dFoot"); if (!box) return;
-    if (!cart.length) { box.innerHTML = `<p style="padding:30px 0;color:var(--muted)">${t("cart_empty")}</p>`; foot.innerHTML = ""; return; }
+    if (!cart.length) { box.innerHTML = `<p style="padding:30px 0 14px;color:var(--muted)">${t("cart_empty")}</p><a class="btn solid" href="shop.html">${t("bio_shop")}</a>`; foot.innerHTML = ""; return; }
     box.innerHTML = cart.map((c, i) => `<div class="ci"><img src="${esc(pic(c.image_url, c.id))}" alt=""><div><div>${esc(lang === "jp" ? c.name_jp : c.name_en)}</div><small>${yen(c.price)} × ${c.qty}</small><br><button class="rm" data-rm="${i}">${t("remove")}</button></div><div class="price">${yen(c.price * c.qty)}</div></div>`).join("");
     const k = calc();
     foot.innerHTML = `<div class="sum"><span>${t("subtotal")}</span><span>${yen(k.sub)}</span></div><div class="sum"><span>${t("shipping")}</span><span>${k.ship ? yen(k.ship) : t("free")}</span></div><div class="sum t"><span>${t("total")}</span><span>${yen(k.total)}</span></div><a class="btn solid" style="display:block;text-align:center;margin-top:14px" href="checkout.html">${t("checkout")}</a><div class="paylogos" style="justify-content:center;margin-top:14px">${payLogos()}</div>`;
+    const lim = Number(S.FREE_SHIPPING_OVER) || 0, rem = lim - k.sub;
+    if (lim) foot.insertAdjacentHTML("afterbegin", `<div class="fs"><p>${rem > 0 ? t("fs_more").replace("{n}", yen(rem)) : t("fs_done")}</p><div class="fsb"><i style="width:${Math.min(100, (k.sub / lim) * 100)}%"></i></div></div>`);
+    foot.insertAdjacentHTML("beforeend", `<details class="gift"${localStorage.getItem("gift") ? " open" : ""}><summary>${t("gift_t")}</summary><textarea id="giftMsg" maxlength="200" placeholder="${esc(t("gift_ph"))}">${esc(localStorage.getItem("gift") || "")}</textarea></details><ul class="tmini"><li>${t("tm_1")}</li><li>${t("tm_2")}</li><li>${t("tm_3")}</li></ul>`);
+    const gm = $("#giftMsg"); if (gm) gm.addEventListener("input", () => { try { localStorage.setItem("gift", gm.value); } catch (e) {} });
     $$("[data-rm]", box).forEach((b) => (b.onclick = () => { cart.splice(+b.dataset.rm, 1); saveCart(); }));
   }
   const openCart = () => { $("#drawer").classList.add("open"); $("#shade").classList.add("open"); renderCart(); };
@@ -184,7 +189,8 @@
 
   /* ---------- wishlist (disimpan di browser, tanpa login) ---------- */
   let wish = jget("wish", []);
-  const toggleWish = (id) => { wish = wish.includes(id) ? wish.filter((x) => x !== id) : [...wish, id]; jset("wish", wish); };
+  const toggleWish = (id) => { wish = wish.includes(id) ? wish.filter((x) => x !== id) : [...wish, id]; jset("wish", wish); updWish(); };
+  const updWish = () => { const n = $("#wishN"); if (n) { n.textContent = wish.length; n.style.display = wish.length ? "" : "none"; } };
 
   /* ---------- lightbox ---------- */
   let lbList = [], lbI = 0;
@@ -199,12 +205,15 @@
     const stock = Number(p.stock), sold = stock <= 0;
     const tag = sold ? `<span class="tag sold">${t("sold_out")}</span>` : (stock >= 2 && stock <= 3) ? `<span class="tag">${t("low_stock")}</span>` : "";
     const i1 = pic(p.image_url, p.id), i2 = p.image_url2 ? pic(p.image_url2, p.id + "b") : "";
-    return `<article class="card" data-id="${esc(p.id)}"><div class="imgbox">${tag}<button class="heart ${wish.includes(p.id) ? "on" : ""}" data-w="${esc(p.id)}" aria-label="wishlist">♥</button><img src="${esc(i1)}" alt="${esc(L(p, "name"))}" loading="lazy">${i2 ? `<img class="img2" src="${esc(i2)}" alt="" loading="lazy">` : ""}</div><div class="meta"><div><div class="sub">${esc(L(p, "category"))}</div><h3>${esc(L(p, "name"))}</h3></div><span class="price">${yen(p.price)}</span></div></article>`;
+    return `<article class="card" data-id="${esc(p.id)}"><div class="imgbox">${tag}<button class="cmp ${cmp.includes(p.id) ? "on" : ""}" data-cmp="${esc(p.id)}" aria-label="compare" title="Compare"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/></svg></button><button class="heart ${wish.includes(p.id) ? "on" : ""}" data-w="${esc(p.id)}" aria-label="wishlist">♥</button><img src="${esc(i1)}" alt="${esc(L(p, "name"))}" loading="lazy">${i2 ? `<img class="img2" src="${esc(i2)}" alt="" loading="lazy">` : ""}</div><div class="meta"><div><div class="sub">${esc(L(p, "category"))}</div><h3>${esc(L(p, "name"))}</h3></div><span class="price">${yen(p.price)}</span></div></article>`;
   }
   function bindCards(root, products) {
+    products.forEach((p) => PROD.set(p.id, p));
     $$(".card", root).forEach((c) => c.addEventListener("click", (e) => {
       const w = e.target.closest("[data-w]");
       if (w) { toggleWish(w.dataset.w); w.classList.toggle("on"); return; }
+      const cm = e.target.closest("[data-cmp]");
+      if (cm) { toggleCmp(cm.dataset.cmp); cm.classList.toggle("on", cmp.includes(cm.dataset.cmp)); return; }
       productModal(products.find((p) => p.id === c.dataset.id));
     }));
   }
@@ -215,14 +224,141 @@
     const box = $("#modalBox");
     box.innerHTML = `<button class="x" id="mx">×</button><div><div class="ph" style="aspect-ratio:4/5"><img id="mImg" src="${esc(imgs[0])}" style="width:100%;height:100%;object-fit:cover" alt=""></div>${imgs.length > 1 ? `<div class="thumbs">${imgs.map((s, i) => `<img src="${esc(s)}" class="${i ? "" : "on"}" data-i="${i}" alt="">`).join("")}</div>` : ""}</div>
       <div class="info"><span class="eyebrow">${esc(L(p, "category"))}</span><h2>${esc(L(p, "name"))}</h2><span class="price">${yen(p.price)}</span><p>${esc(L(p, "desc"))}</p><table class="spec">${p.size ? `<tr><td>${t("size")}</td><td>${esc(p.size)}</td></tr>` : ""}${p.material_en ? `<tr><td>${t("material")}</td><td>${esc(L(p, "material"))}</td></tr>` : ""}<tr><td>${t("in_stock")}</td><td>${stock > 0 ? stock : t("sold_out")}</td></tr></table>${L(p, "story") ? `<div class="story"><h4>${t("story_h")}</h4>${p.before_image ? `<img src="${esc(drive(p.before_image))}" alt="">` : ""}<p>${esc(L(p, "story"))}</p></div>` : ""}<div class="paylogos" style="margin-top:18px">${payLogos(["PayPal", "Visa", "Mastercard", "JCB", "Bank"])}</div><p class="note" style="margin-top:10px"><a href="size-guide.html" style="text-decoration:underline">${t("shop_sizelink")}</a></p>
-      <div style="margin-top:22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap">${stock > 1 ? `<div class="qty"><button id="qm">−</button><span id="qn">1</span><button id="qp">+</button></div>` : ""}<button class="btn solid" id="addB" ${stock <= 0 ? "disabled" : ""}>${stock <= 0 ? t("sold_out") : t("add_cart")}</button></div></div>`;
+      <div class="buy" style="margin-top:22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap">${stock > 1 ? `<div class="qty"><button id="qm">−</button><span id="qn">1</span><button id="qp">+</button></div>` : ""}<button class="btn solid" id="addB" ${stock <= 0 ? "disabled" : ""}>${stock <= 0 ? t("sold_out") : t("add_cart")}</button></div></div><div class="sbuy"><b>${yen(p.price)}</b><button class="btn solid" id="addB2" ${stock <= 0 ? "disabled" : ""}>${stock <= 0 ? t("sold_out") : t("add_cart")}</button></div>`;
     $("#modal").classList.add("open");
     $("#mx").onclick = closeModal;
     $$(".thumbs img", box).forEach((th) => (th.onclick = () => { $("#mImg").src = th.src; $$(".thumbs img", box).forEach((x) => x.classList.toggle("on", x === th)); }));
     if ($("#qm")) { $("#qm").onclick = () => { q = Math.max(1, q - 1); $("#qn").textContent = q; }; $("#qp").onclick = () => { q = Math.min(stock, q + 1); $("#qn").textContent = q; }; }
     $("#addB").onclick = () => { closeModal(); addToCart(p, q); };
+    $("#addB2").onclick = () => { closeModal(); addToCart(p, q); };
+    const zi = $("#mImg"), zp = zi.parentNode; zp.classList.add("zoomable");
+    zp.addEventListener("mousemove", (e) => { if (!matchMedia("(hover:hover)").matches) return; const r = zp.getBoundingClientRect(); zi.style.transformOrigin = ((e.clientX - r.left) / r.width) * 100 + "% " + ((e.clientY - r.top) / r.height) * 100 + "%"; zi.style.transform = "scale(2.2)"; });
+    zp.addEventListener("mouseleave", () => (zi.style.transform = ""));
+    zp.addEventListener("click", () => { zi.style.transform = ""; const k = Math.max(0, $$(".thumbs img", box).findIndex((x) => x.classList.contains("on"))); openLb(imgs.map((s) => ({ src: s, cap: L(p, "name") })), k); });
   }
 
+
+
+  /* ============ v9: pencarian, filter, bandingkan, wishlist, popup, link-in-bio ============ */
+  const PROD = new Map();
+  let cmp = jget("cmp", []);
+  const srcTag = () => { try { const s = JSON.parse(sessionStorage.getItem("src")); return s && s.s ? "[source: " + [s.s, s.m, s.c].filter(Boolean).join(" / ") + "]" : ""; } catch (e) { return ""; } };
+  function toast(msg) {
+    let el = $("#toast"); if (!el) { document.body.insertAdjacentHTML("beforeend", '<div id="toast"></div>'); el = $("#toast"); }
+    el.textContent = msg; el.classList.add("show"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("show"), 2200);
+  }
+  const COLORS = { red: "#B3243F", ivory: "#F4EBDD", blue: "#2F4F9A", beige: "#CDB791", green: "#8FBF98", pink: "#EBA3B5", black: "#25232A", white: "#FFFFFF", purple: "#8C7BC4", multi: "linear-gradient(135deg,#EBA3B5,#8FBF98,#2F4F9A)" };
+  const tk = (pre, k) => (DICT[pre + k] ? t(pre + k) : k);
+
+  /* ---- bandingkan ---- */
+  function toggleCmp(id) {
+    if (cmp.includes(id)) cmp = cmp.filter((x) => x !== id);
+    else { if (cmp.length >= 3) { toast(t("cmp_max")); return; } cmp = [...cmp, id]; }
+    jset("cmp", cmp); renderCmpBar();
+  }
+  function renderCmpBar() {
+    let bar = $("#cmpBar"); if (!bar) { document.body.insertAdjacentHTML("beforeend", '<div id="cmpBar"></div>'); bar = $("#cmpBar"); }
+    bar.classList.toggle("show", cmp.length > 0);
+    bar.innerHTML = `<span>${t("cmp_t")} (${cmp.length}/3)</span><button class="btn solid" id="cmpGo">${t("cmp_view")}</button><button class="lnk" id="cmpClr">${t("cmp_clear")}</button>`;
+    $("#cmpGo").onclick = () => (cmp.length < 2 ? toast(t("cmp_need")) : openCmp());
+    $("#cmpClr").onclick = () => { cmp = []; jset("cmp", cmp); $$(".card .cmp.on").forEach((b) => b.classList.remove("on")); renderCmpBar(); };
+  }
+  async function openCmp() {
+    if (!PROD.size) (await getData("products")).forEach((p) => PROD.set(p.id, p));
+    const ps = cmp.map((id) => PROD.get(id)).filter(Boolean), row = (lab, f) => `<tr><th>${lab}</th>${ps.map((p) => `<td>${f(p)}</td>`).join("")}</tr>`;
+    $("#modalBox").innerHTML = `<button class="x" id="mx">×</button><div class="cmpw"><h3>${t("cmp_t")}</h3><div class="cmpscroll"><table class="cmpt">
+      <tr><th></th>${ps.map((p) => `<td><div class="cimg" style="background-image:url('${esc(pic(p.image_url, p.id))}')"></div><b>${esc(L(p, "name"))}</b></td>`).join("")}</tr>
+      ${row(t("cmp_price"), (p) => yen(p.price))}${row(t("cmp_type"), (p) => esc(L(p, "category")))}${row(t("size"), (p) => esc(p.size || "–"))}${row(t("material"), (p) => esc(L(p, "material") || "–"))}${row(t("in_stock"), (p) => (Number(p.stock) > 0 ? p.stock : t("sold_out")))}
+      <tr><th></th>${ps.map((p) => `<td><button class="btn solid" data-v="${esc(p.id)}">${t("cmp_open")}</button></td>`).join("")}</tr></table></div></div>`;
+    $("#modal").classList.add("open"); $("#mx").onclick = closeModal;
+    $$("[data-v]", $("#modalBox")).forEach((b) => (b.onclick = () => productModal(PROD.get(b.dataset.v))));
+  }
+
+  /* ---- wishlist panel ---- */
+  async function openWish() {
+    if (!PROD.size) (await getData("products")).forEach((p) => PROD.set(p.id, p));
+    const draw = () => {
+      const ps = wish.map((id) => PROD.get(id)).filter(Boolean);
+      $("#modalBox").innerHTML = `<button class="x" id="mx">×</button><div class="wl"><h3>${t("wish_t")}</h3>${ps.length ? ps.map((p) => `<div class="wli"><div class="cimg" style="background-image:url('${esc(pic(p.image_url, p.id))}')"></div><div><b>${esc(L(p, "name"))}</b><br><small>${yen(p.price)}</small></div><button class="btn dark" data-v="${esc(p.id)}">${t("cmp_open")}</button><button class="rm" data-r="${esc(p.id)}" aria-label="remove">✕</button></div>`).join("") + `<p style="margin-top:18px"><button class="btn solid" id="wShare">${t("wish_share")}</button></p>` : `<p style="color:var(--muted);margin:14px 0 18px">${t("wish_empty")}</p><a class="btn solid" href="shop.html">${t("bio_shop")}</a>`}</div>`;
+      $("#mx").onclick = closeModal;
+      $$("[data-v]", $("#modalBox")).forEach((b) => (b.onclick = () => productModal(PROD.get(b.dataset.v))));
+      $$("[data-r]", $("#modalBox")).forEach((b) => (b.onclick = () => { toggleWish(b.dataset.r); draw(); }));
+      const sh = $("#wShare"); if (sh) sh.onclick = async () => { const u = new URL("shop.html?w=" + wish.join(","), location.href).href; try { if (navigator.share) { await navigator.share({ title: "YUITSU", url: u }); return; } } catch (e) {} try { await navigator.clipboard.writeText(u); toast(t("wish_copied")); } catch (e) { prompt("", u); } };
+    };
+    draw(); $("#modal").classList.add("open");
+  }
+
+  /* ---- pencarian ---- */
+  let SD = null;
+  async function openSearch() {
+    let el = $("#srch");
+    if (!el) {
+      document.body.insertAdjacentHTML("beforeend", '<div class="srch" id="srch"><div class="sbox"><div class="sin"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><input id="sq" type="search" autocomplete="off"><button id="sx" aria-label="close">✕</button></div><div id="sres"></div></div></div>');
+      el = $("#srch"); $("#sx").onclick = closeSearch; el.addEventListener("click", (e) => { if (e.target === el) closeSearch(); });
+      $("#sq").addEventListener("input", runSearch); onLang(() => { if (el.classList.contains("open")) { $("#sq").placeholder = t("srch_ph"); runSearch(); } });
+    }
+    el.classList.add("open"); $("#sq").placeholder = t("srch_ph"); setTimeout(() => $("#sq").focus(), 50);
+    if (!SD) { const [p, b, f] = await Promise.all([getData("products"), getData("posts"), getData("faq")]); SD = { p: visible(p), b: visible(b), f: visible(f) }; SD.p.forEach((x) => PROD.set(x.id, x)); }
+    runSearch();
+  }
+  const closeSearch = () => { const e = $("#srch"); if (e) e.classList.remove("open"); };
+  function runSearch() {
+    const box = $("#sres"); if (!box || !SD) return;
+    const q = ($("#sq").value || "").trim().toLowerCase(), toks = q.split(/\s+/).filter(Boolean);
+    const hit = (s) => toks.every((k) => s.toLowerCase().includes(k));
+    if (!toks.length) {
+      const pops = ["Furisode", "Houmongi", "kiku", "seigaiha", "red", "blue"];
+      box.innerHTML = `<p class="sh">${t("srch_pop")}</p><div class="spops">${pops.map((x) => `<button>${x}</button>`).join("")}</div>`;
+      $$(".spops button", box).forEach((b) => (b.onclick = () => { $("#sq").value = b.textContent; runSearch(); })); return;
+    }
+    const P = SD.p.filter((p) => hit([p.name_en, p.name_jp, p.desc_en, p.desc_jp, p.category_en, p.category_jp, p.color, p.motif, tk("c_", p.color || ""), tk("m_", p.motif || ""), p.material_en, p.material_jp].join(" "))).slice(0, 6);
+    const B = SD.b.filter((p) => hit([p.title_en, p.title_jp, p.summary_en, p.summary_jp].join(" "))).slice(0, 3);
+    const F = SD.f.filter((r) => hit([r.q_en, r.q_jp, r.a_en, r.a_jp].join(" "))).slice(0, 4);
+    let h = "";
+    if (P.length) h += `<p class="sh">${t("srch_prod")}</p>` + P.map((p) => `<button class="sr" data-p="${esc(p.id)}"><span class="cimg" style="background-image:url('${esc(pic(p.image_url, p.id))}')"></span><span><b>${esc(L(p, "name"))}</b><small>${esc(L(p, "category"))}</small></span><em>${yen(p.price)}</em></button>`).join("");
+    if (B.length) h += `<p class="sh">${t("srch_posts")}</p>` + B.map((p) => `<a class="sr" href="blog.html"><span><b>${esc(L(p, "title"))}</b></span></a>`).join("");
+    if (F.length) h += `<p class="sh">Q&amp;A</p>` + F.map((r) => `<a class="sr" href="faq.html?q=${encodeURIComponent(q)}"><span><b>${esc(L(r, "q"))}</b></span></a>`).join("");
+    if (!h) h = `<p class="sh" style="text-transform:none;letter-spacing:.04em">${t("srch_none")}</p><p><a class="btn dark" href="contact.html">${t("nav_contact")}</a> <a class="btn dark" href="custom.html">${t("nav_custom")}</a></p>`;
+    box.innerHTML = h;
+    $$("[data-p]", box).forEach((b) => (b.onclick = () => { closeSearch(); productModal(PROD.get(b.dataset.p)); }));
+  }
+
+  /* ---- popup newsletter (halus: sekali per 14 hari, tidak muncul di checkout) ---- */
+  function newsPopup() {
+    const pg = document.body.dataset.page;
+    if (["checkout", "kaitori", "custom", "legal", "links", "notfound"].includes(pg)) return;
+    let seen = 0; try { seen = Number(localStorage.getItem("nlpop") || 0); } catch (e) {}
+    if (seen && Date.now() - seen < 14 * 864e5) return;
+    let shown = false;
+    const mark = (ms) => { try { localStorage.setItem("nlpop", String(Date.now() + (ms || 0))); } catch (e) {} };
+    const close = () => { const e = $("#npop"); if (e) e.classList.remove("open"); };
+    const show = () => {
+      if (shown || $(".modal.open,.drawer.open,.lb.open,.srch.open")) return false;
+      shown = true; mark();
+      document.body.insertAdjacentHTML("beforeend", `<div class="npop" id="npop" role="dialog" aria-modal="true"><div class="nbox"><button class="nx" id="npX" aria-label="close">✕</button><div class="nimg" data-img="images/story.jpg"></div><div class="nbody"><span class="eyebrow">YUITSU</span><h3 id="npH"></h3><p id="npT"></p><form id="npF"><input type="email" required name="email"><input class="hp" name="website" tabindex="-1" autocomplete="off"><button class="btn solid" id="npB"></button></form><div class="msg" id="npM"></div><button type="button" class="lnk" id="npN"></button></div></div></div>`);
+      const fill = () => { $("#npH").textContent = t("pop_h"); $("#npT").textContent = t("news_t"); $("#npB").textContent = t("pop_btn"); $("#npN").textContent = t("pop_no"); $("#npF").email.placeholder = t("news_ph"); };
+      fill(); onLang(fill); fillImgs();
+      requestAnimationFrame(() => { $("#npop").classList.add("open"); setTimeout(() => $("#npF").email.focus(), 300); });
+      $("#npX").onclick = close; $("#npN").onclick = close; $("#npop").addEventListener("click", (e) => { if (e.target.id === "npop") close(); });
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+      $("#npF").addEventListener("submit", async (e) => {
+        e.preventDefault(); const f = e.target, m = $("#npM"); $("#npB").disabled = true;
+        const r = await post("subscribe", { email: f.email.value, website: f.website.value, lang, source: srcTag() || "popup" });
+        m.className = "msg"; m.style.display = "block"; m.textContent = r.demo ? t("demo_mode") : r.ok ? t("sent_ok") : t("sent_err"); $("#npB").disabled = false;
+        if (r.ok) { f.reset(); mark(365 * 864e5); setTimeout(close, 2200); }
+      });
+      return true;
+    };
+    const start = Date.now(), delay = Number(S.POPUP_DELAY) || 25000;
+    const iv = setInterval(() => { if (shown) return clearInterval(iv); if (Date.now() - start >= delay && show()) clearInterval(iv); }, 2000);
+    document.addEventListener("mouseout", (e) => { if (!e.relatedTarget && e.clientY < 8 && Date.now() - start > 8000 && matchMedia("(hover:hover)").matches) show(); });
+    window.addEventListener("scroll", () => { const h = document.documentElement; if (Date.now() - start > 8000 && h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight) > 0.7) show(); }, { passive: true });
+  }
+
+  /* ---- sumber kunjungan (utm / src) disimpan agar masuk ke catatan pesanan ---- */
+  function captureSrc() {
+    try { const q = new URLSearchParams(location.search), s = q.get("utm_source") || q.get("src"); if (s) sessionStorage.setItem("src", JSON.stringify({ s, m: q.get("utm_medium") || "", c: q.get("utm_campaign") || "" })); } catch (e) {}
+  }
 
   /* ---------- ide agar pengunjung kembali: pilihan hari ini, motif hari ini, kuis, hitung mundur ---------- */
   const MOTIFS = [
@@ -326,7 +462,7 @@
   function backTop() {
     const b = document.createElement("button"); b.id = "toTop"; b.type = "button"; b.setAttribute("aria-label", "Back to top");
     b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5"/></svg><span>TOP</span>';
-    document.body.appendChild(b);
+    document.body.appendChild(b); if ($(".line-fab")) b.style.bottom = "76px";
     b.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
     const f = () => b.classList.toggle("show", window.scrollY > 600);
     window.addEventListener("scroll", f, { passive: true }); f();
@@ -404,13 +540,37 @@
       draw(); onLang(draw);
     },
     async shop() {
-      const prods = visible(await getData("products")); let cat = new URLSearchParams(location.search).get("c") || "all";
+      const prods = visible(await getData("products")); prods.forEach((p) => PROD.set(p.id, p));
+      const qp = new URLSearchParams(location.search), wl = (qp.get("w") || "").split(",").filter(Boolean);
+      const st = { cat: qp.get("c") || "all", color: "all", motif: "all", price: "all", len: "all", sort: "feat" };
+      const lenOf = (p) => { const m = String(p.size || "").match(/(?:Length|着丈)\D*(\d+)/i); return m ? Number(m[1]) : null; };
+      const PR = { u40: [0, 39999], m: [40000, 59999], h: [60000, 1e9] }, LN = { s: [0, 129], m: [130, 140], l: [141, 999] };
+      if (!$("#shopAdv")) $("#shopFilters").insertAdjacentHTML("afterend", '<div id="shopAdv" class="adv"></div><div class="rescount" id="shopCount"></div>');
       const draw = () => {
         const cats = [...new Map(prods.map((p) => [p.category_en, L(p, "category")])).entries()].filter((c) => c[0]);
-        $("#shopFilters").innerHTML = [`<button data-c="all" class="${cat === "all" ? "on" : ""}">${t("all")}</button>`, ...cats.map(([k, v]) => `<button data-c="${esc(k)}" class="${cat === k ? "on" : ""}">${esc(v)}</button>`)].join("");
-        $$("#shopFilters button").forEach((b) => (b.onclick = () => { cat = b.dataset.c; draw(); }));
-        const list = prods.filter((p) => cat === "all" || p.category_en === cat);
-        $("#shopGrid").innerHTML = list.map(cardHTML).join("") || `<p class="center">${t("empty_list")}</p>`; bindCards($("#shopGrid"), prods);
+        $("#shopFilters").innerHTML = [`<button data-c="all" class="${st.cat === "all" ? "on" : ""}">${t("all")}</button>`, ...cats.map(([k, v]) => `<button data-c="${esc(k)}" class="${st.cat === k ? "on" : ""}">${esc(v)}</button>`)].join("");
+        $$("#shopFilters button").forEach((b) => (b.onclick = () => { st.cat = b.dataset.c; draw(); }));
+        const colors = [...new Set(prods.map((p) => p.color).filter(Boolean))], motifs = [...new Set(prods.map((p) => p.motif).filter(Boolean))];
+        const sel = (k, label, opts) => `<label class="fsel"><span>${label}</span><select data-k="${k}"><option value="all">${t("all_any")}</option>${opts.map(([v, l]) => `<option value="${esc(v)}"${st[k] === v ? " selected" : ""}>${esc(l)}</option>`).join("")}</select></label>`;
+        const active = st.color !== "all" || st.motif !== "all" || st.price !== "all" || st.len !== "all" || st.sort !== "feat";
+        $("#shopAdv").innerHTML =
+          (colors.length ? `<div class="fcol"><span>${t("flt_color")}</span>${colors.map((c) => `<button class="sw${st.color === c ? " on" : ""}" data-sw="${esc(c)}" title="${esc(tk("c_", c))}" aria-label="${esc(tk("c_", c))}" style="--c:${COLORS[c] || "#ccc"}"></button>`).join("")}</div>` : "") +
+          (motifs.length ? sel("motif", t("flt_motif"), motifs.map((m) => [m, tk("m_", m)])) : "") +
+          sel("price", t("flt_price"), [["u40", t("p_u40")], ["m", t("p_m")], ["h", t("p_h")]]) +
+          (prods.some((p) => lenOf(p)) ? sel("len", t("flt_len"), [["s", t("l_s")], ["m", t("l_m")], ["l", t("l_l")]]) : "") +
+          `<label class="fsel"><span>${t("flt_sort")}</span><select data-k="sort"><option value="feat">${t("s_feat")}</option><option value="lo"${st.sort === "lo" ? " selected" : ""}>${t("s_lo")}</option><option value="hi"${st.sort === "hi" ? " selected" : ""}>${t("s_hi")}</option></select></label>` +
+          (active ? `<button class="lnk" id="fClr">${t("flt_clear")}</button>` : "");
+        $$("#shopAdv select").forEach((s) => (s.onchange = () => { st[s.dataset.k] = s.value; draw(); }));
+        $$("#shopAdv [data-sw]").forEach((b) => (b.onclick = () => { st.color = st.color === b.dataset.sw ? "all" : b.dataset.sw; draw(); }));
+        const fc = $("#fClr"); if (fc) fc.onclick = () => { Object.assign(st, { color: "all", motif: "all", price: "all", len: "all", sort: "feat" }); draw(); };
+        let list = prods.filter((p) => (st.cat === "all" || p.category_en === st.cat) && (st.color === "all" || p.color === st.color) && (st.motif === "all" || p.motif === st.motif) &&
+          (st.price === "all" || (Number(p.price) >= PR[st.price][0] && Number(p.price) <= PR[st.price][1])) && (st.len === "all" || (lenOf(p) !== null && lenOf(p) >= LN[st.len][0] && lenOf(p) <= LN[st.len][1])));
+        if (wl.length) list = list.filter((p) => wl.includes(p.id));
+        if (st.sort === "lo") list = [...list].sort((a, b) => a.price - b.price); else if (st.sort === "hi") list = [...list].sort((a, b) => b.price - a.price);
+        $("#shopCount").innerHTML = (wl.length ? `<b>${t("wish_shared")}</b> · <a href="shop.html" style="text-decoration:underline">${t("flt_clear")}</a> · ` : "") + `${list.length} ${t("items_n")}`;
+        $("#shopGrid").innerHTML = list.map(cardHTML).join("") || `<div class="center" style="grid-column:1/-1;padding:30px 0"><p>${t("empty_list")}</p><p style="margin-top:14px"><button class="btn dark" id="fClr2">${t("flt_clear")}</button> <a class="btn solid" href="custom.html">${t("nav_custom")}</a></p></div>`;
+        const f2 = $("#fClr2"); if (f2) f2.onclick = () => { Object.assign(st, { cat: "all", color: "all", motif: "all", price: "all", len: "all", sort: "feat" }); draw(); };
+        bindCards($("#shopGrid"), prods);
       };
       draw(); onLang(draw);
     },
@@ -428,9 +588,26 @@
         const cats = [...new Map(list.map((r) => [r.category_en, L(r, "category")])).entries()];
         box.innerHTML = cats.map(([k, v]) => `<div class="faqcat"><h2>${esc(v)}</h2>${list.filter((r) => r.category_en === k).map((r) => `<details class="qa"${kw ? " open" : ""}><summary>${esc(L(r, "q"))}</summary><div class="ans">${esc(L(r, "a"))}</div></details>`).join("")}</div>`).join("") || `<p class="center">${t("faq_none")}</p>`;
       };
+      try { q.value = new URLSearchParams(location.search).get("q") || ""; } catch (e) {}
       q.addEventListener("input", draw); draw(); onLang(draw);
       try { const ld = document.createElement("script"); ld.type = "application/ld+json"; ld.text = JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: rows.map((r) => ({ "@type": "Question", name: r.q_en, acceptedAnswer: { "@type": "Answer", text: r.a_en } })) }); document.head.appendChild(ld); } catch (e) {}
     },
+    async links() {
+      const prods = visible(await getData("products")); prods.forEach((p) => PROD.set(p.id, p));
+      const day = Math.floor(Date.now() / 864e5), inS = prods.filter((p) => Number(p.stock) > 0), pk = inS.length ? inS[day % inS.length] : null;
+      const ext = [["Instagram", S.INSTAGRAM], ["TikTok", S.TIKTOK], ["LINE", S.LINE_URL], ["YouTube", S.YOUTUBE], ["Pinterest", S.PINTEREST]].filter((x) => x[1]);
+      const draw = () => {
+        $("#bioLinks").innerHTML =
+          (pk ? `<button class="bl pick" id="bPick"><span class="cimg" style="background-image:url('${esc(pic(pk.image_url, pk.id))}')"></span><span><small>${t("bio_pick")}</small><b>${esc(L(pk, "name"))}</b></span><em>${yen(pk.price)}</em></button>` : "") +
+          `<a class="bl main" href="shop.html">${t("bio_shop")}</a><a class="bl" href="index.html#quiz">${t("bio_quiz")}</a><a class="bl" href="custom.html">${t("bio_custom")}</a><a class="bl" href="kaitori.html">${t("bio_kaitori")}</a>` +
+          ext.map(([n, u]) => `<a class="bl" href="${esc(u)}" target="_blank" rel="noopener">${n}</a>`).join("") + `<a class="bl" href="contact.html">${t("bio_contact")}</a>`;
+        const bp = $("#bPick"); if (bp) bp.onclick = () => productModal(pk);
+        $("#bioH").textContent = t("bio_new");
+        $("#bioGrid").innerHTML = prods.slice(0, 4).map(cardHTML).join(""); bindCards($("#bioGrid"), prods);
+      };
+      draw(); onLang(draw);
+    },
+    notfound() { const b = $("#nfSearch"); if (b) b.onclick = openSearch; },
     kaitori() { initKaitori(); },
     custom() { initKaitori(); },
     contact() { initContact(); },
@@ -506,11 +683,13 @@
     f.addEventListener("submit", async (e) => {
       e.preventDefault(); const m = $("#coMsg"), b = f.querySelector("button[type=submit]"); b.disabled = true; b.textContent = t("sending");
       const d = Object.fromEntries(new FormData(f).entries());
-      const r = await post("order", { ...d, lang, items: cart.map((c) => ({ id: c.id, qty: c.qty })) });
+      let gift = ""; try { gift = localStorage.getItem("gift") || ""; } catch (e) {}
+      const note = [gift ? "[Gift message] " + gift : "", d.note || "", srcTag()].filter(Boolean).join("\n");
+      const r = await post("order", { ...d, note, lang, items: cart.map((c) => ({ id: c.id, qty: c.qty })) });
       if (r.ok) {
         const id = r.order_id, k = calc(), jp = (d.country || "Japan") === "Japan", amount = jp ? k.total : k.sub;
         showPayHow(d.pay, id, amount, jp);
-        cart = []; jset("cart", cart); renderCart();
+        cart = []; jset("cart", cart); try { localStorage.removeItem("gift"); } catch (e) {} renderCart();
         f.hidden = true; sum.parentElement.hidden = true;
         const dn = $("#done"); dn.hidden = false;
         $("#doneId").textContent = id; $("#demoNote").hidden = !r.demo;
@@ -536,7 +715,7 @@
 
   /* ---------- mulai ---------- */
   document.addEventListener("DOMContentLoaded", async () => {
-    chrome(); skeleton(); pageFx(); backTop();
+    captureSrc(); chrome(); skeleton(); pageFx(); backTop(); updWish(); renderCmpBar(); newsPopup();
     $("#lbX").onclick = closeLb; $("#lbP").onclick = () => lbStep(-1); $("#lbN").onclick = () => lbStep(1);
     $("#lb").addEventListener("click", (e) => { if (e.target.id === "lb") closeLb(); });
     $("#modal").addEventListener("click", (e) => { if (e.target.id === "modal") closeModal(); });
