@@ -452,8 +452,8 @@ body::before,body::after{will-change:opacity}
 body::after{content:"";position:fixed;left:50%;top:50%;width:112px;height:112px;margin:-92px 0 0 -56px;z-index:9999;pointer-events:none;
   background:url(../images/logo.png) center/contain no-repeat;animation:ld-logo 1.6s ease-in-out infinite,ld-out .8s ease 1.5s forwards}
 body.ready::before,body.ready::after{animation-delay:0s,.35s}
-body.ready::before{animation:ld-out .7s ease .35s forwards}
-body.ready::after{animation:ld-logo 1.6s ease-in-out infinite,ld-out .7s ease .35s forwards}
+body.ready::before{animation:ld-out .55s ease .45s forwards}
+body.ready::after{animation:ld-logo 1.6s ease-in-out infinite,ld-out .55s ease .45s forwards}
 @keyframes ld-logo{0%,100%{transform:scale(.94);opacity:.82}50%{transform:scale(1.04);opacity:1}}
 @keyframes ld-out{to{opacity:0;visibility:hidden}}
 @keyframes ld-in{from{opacity:0;visibility:visible}to{opacity:1;visibility:visible}}
@@ -490,3 +490,20 @@ html.leaving body::before,html.leaving body::after{animation:ld-in .38s ease for
 .drop .btn{background:var(--gold);border-color:var(--gold);color:#fff}
 @media(max-width:900px){.daily{grid-template-columns:1fr}}
 @media(max-width:560px){.dpick{grid-template-columns:1fr}.dpick .dimg{min-height:240px}.dpick .dtx{padding:0 20px 24px}}
+
+
+/* ===== v7: skeleton loading ===== */
+.sk{background:linear-gradient(100deg,#EFE5DE 30%,#F8F2EE 50%,#EFE5DE 70%);background-size:300% 100%;animation:sk 1.4s ease-in-out infinite;border-radius:2px}
+@keyframes sk{from{background-position:100% 0}to{background-position:0 0}}
+.sk-card{display:flex;flex-direction:column;gap:10px}
+.sk-img{aspect-ratio:3/4;width:100%}
+.sk-img.wide{aspect-ratio:3/2}
+.sk-l{height:12px;width:80%}
+.sk-l.s{width:45%}
+.sk-pill{display:inline-block;height:38px;width:92px;border-radius:30px;margin:0 5px}
+.sk-bar{height:64px;margin:12px 0}
+.sk-bar.tall{height:110px}
+.sk-m{width:100%;margin-bottom:12px;break-inside:avoid;display:block}
+@media(prefers-reduced-motion:reduce){.sk{animation:none}}
+.card,.post{animation:fin .6s ease both}
+@keyframes fin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
